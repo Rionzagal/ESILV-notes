@@ -25,9 +25,10 @@ modified: 2022-09-22T17:52:07+02:00
 
 |                   | Passé composé | Passé imperfait |
 | :--------------: | :------------------------: | :------------------------: |
-| Temps utilisés seuls | - Exprime une action ponctuelle...
-  - Example: .......
+| Temps utilisés seuls | - Exprime une action ponctuelle... | |
+|                      |   - Example: .......
+
 - Exprime une action délimité dans le temps.
-  - Example: .......  |osdjfaposdjfaposdijf|
-| | | |
-| | | |
+
+  - Example: .......  |osdjfaposdjfaposdijf |
+

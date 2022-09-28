@@ -1,0 +1,356 @@
+---
+title: "Machine Learning - PW 1"
+author: "Mario González Galindo"
+date: "08/09/2022"
+output: 
+    html_document:
+        toc: yes
+---
+In this document, we will visualize the use of basic commands in **R** for reading, pre-processing and evaluating data through Machine Learning models.
+The first section is all about the loading and pre-processing of external data using R in order to get it ready to evaluate in a Machine Learning Model.
+
+# Data reading and pre-processing in R
+In this section we start by looking into the methods of R by reading and pre-processing data contained in the folder as `dataset.csv`.
+This dataset contains a matrix of data in both numeric _(quantitative)_ and text _(qualitative)_ forms to pre-process.
+
+## Data loading in R
+The external file `dataset.csv` is loaded into the workspace and read.
+
+```{r data-reading}
+data <- read.csv(
+    file = "dataset.csv",
+    header = TRUE,
+    sep = ","
+)
+knitr::kable(data, caption = "Original raw data from dataset.csv")
+```
+
+As it is shown in the past code chunk, the data is presented in form of a _data-frame_ composed from rows and columns. The columns representing the features
+of the data, while the rows represent the observations of each case considered for the data. As it can be observed, the data contains _NA_ values, which imply
+missing information. In the next sub-section we will process these observations in order to convert the missing values into data, using the average value of
+their respective feature.
+
+## Process the rows containing NA or NaN values
+Because the dataset contains some _NA_ values in different rows and columns. We will estimate the values of the missing values of each column using the
+**mean method**. This method extracts the average value of the features containing missing values, and then replacing those missing values with the calculated
+value in order to not lose data.
+
+```{r NA-replacing}
+average_age <- mean(na.omit(data$Age))
+data$Age[is.na(data$Age)] <- average_age
+
+average_salary <- mean(na.omit(data$Salary))
+data$Salary[is.na(data$Salary)] <- average_salary
+
+knitr::kable(data, caption = "Original data processed to replace missing data")
+```
+
+As it shows in the resulting data, there is no more missing data in the frame, which enables the user to use all of the present in the external file, even if
+it is not entirely the original data.
+
+## Encode the categorical data features into numeric labels
+In order to let the model label the categorical data, the text contained in the data must be changed into integer numbers, which are readable by the models in
+order to categorize the data and label it through predictions.
+
+```{r encode-data}
+countries <- unique(data$Country)
+
+encoded_data <- data.frame(data)
+for (item in countries) {
+    encoded_data[encoded_data == item] <- which(item == countries)
+}
+encoded_data$Purchased <- ifelse(encoded_data$Purchased == "Yes", 1, 0)
+
+knitr::kable(encoded_data, caption = "Encoded data to show numeric labels")
+```
+
+Once the data is encoded, each of the text labels are replaced with numeric labels. This is ideal in order to pass the data through the ML algorithms.
+
+## Divide the data into training and test
+In order to train the ML models that will evaluate the data, it must be separated into randomized sets for training and test. The training set must contain the majority
+of data _(70% ~ 80%)_, so the model can be properly trained. The test set must contain the other part of the data, so the model can be tested with untrained data within
+the original considered data.
+
+```{r train-test-sample}
+set.seed(1)
+train_samples <- caret::createDataPartition(data$Country, p = 0.6, list = FALSE)
+data_train <- encoded_data[train_samples, ]
+data_test <- encoded_data[-train_samples, ]
+# Shuffle the data from both sets
+data_train <- data_train[sample(seq_len(nrow(data_train))), ]
+data_test <- data_test[sample(seq_len(nrow(data_test))), ]
+
+knitr::kable(data_train, caption = "Training set from original data")
+knitr::kable(data_test, caption = "Test set from original data")
+```
+
+## Data standarization
+Now that the data has been separated between the two sets, it must be standarized to better train the ML models. In order to do this, there are two forms to achieve this
+step of processing the data, **Normalization** and **Standarization**. Both of these methods are focused on setting the data numeric values in a standarized scale, so that
+the minimum or maximum vaulues are not rendered insignificant or shadowed by the mean values with absolute scales.
+
+### Normalization
+This method process the numeric data to result in values between 0 and 1, so the model can be trained more easily using values relative to the minimum and maximum
+values of the data.
+
+```{r normalization}
+norm <- function(x) (x - min(x)) / (max(x) - min(x))
+
+data_norm <- data.frame(
+    data[c("Country", "Purchased")],
+    apply(data[c("Age", "Salary")], 2, norm)
+)
+
+knitr::kable(
+    data_norm,
+    caption = "Data with the Salary and Age features normalized"
+)
+```
+
+
+### Standarization
+This method process the numeric data through statistical process, setting the limits of the feature values relative to the _standard deviation_ and the mean of the
+feature.
+
+```{r standarization}
+std <- function(x) (x - mean(x)) / sd(x)
+
+data_std <- data.frame(
+    data[c("Country", "Purchased")],
+    apply(data[c("Age", "Salary")], 2, std)
+)
+
+knitr::kable(
+    data_std,
+    caption = "Data with Salary and Age features standarized"
+)
+```
+
+# First Machine Learning Project in R step-by-step
+In this section we will be creating our first **Machine Learning Project**, using the _Iris_ dataset provided by **R**. The _Iris_ dataset is the _default ML_
+dataset, derived from flower measurements. In this section, we will follow each step separately in order to provide the clear procedure of this project.
+
+## First step: load the data
+In this step we will read the _Iris_ dataset. Fortunately, **R** already provides the dataset for us to use. We only have to load it through basic R functions.
+
+```{r iris-load}
+library(datasets) # Import the 'datasets' library into workspace.
+
+data(iris)
+summary(iris)
+```
+
+As we can see, the summary information of the _Iris_ dataset is presented as four blocks containing the numerical data representing the flower measures and a
+fifth block containing the labeled species of the flower for each of the observations contained in the dataframe. The dataframe contains a total of _150 observations_
+with three species of flowers distributed by 50 observations each.
+
+## Second step: separate training data from test data
+In this step we will separate the training and test data with a ratio of _80/20_ for the sets. We will continue the next steps with the training set and leave the
+test set for the final predictions.
+
+```{r train-test-separation}
+iris_train_samples <- caret::createDataPartition(
+    iris$Species,
+    p = 0.8,
+    list = FALSE
+)
+iris_train <- iris[iris_train_samples, ]
+iris_test <- iris[-iris_train_samples, ]
+
+iris_train <- iris_train[sample(seq_len(nrow(iris_train))), ]
+iris_test <- iris_test[sample(seq_len(nrow(iris_test))), ]
+
+rownames(iris_train) <- NULL
+rownames(iris_test) <- NULL
+
+knitr::kable(head(iris_train))
+```
+
+Now that the data has been separated, we can summarize the training data in order to learn about its values without having to see all of the data.
+
+## Third step: summarize the data
+In this step we will summarize the training data obtained from the last step, which will help us know more about it and how it can be treated. In order
+to correctly summarize it, we can help ourselves with functions such as `dim()`, `summary()`, `head()`, `levels()`, `table.prop()`.
+
+```{r data-summary}
+dim(iris_train)
+summary(iris_train)
+head(iris_train)
+prop.table(table(iris_train$Species))
+```
+
+## Fourth step: visualize the data
+Now that we have a basic idea of what the data looks like, we need to complement it with plots and images in order to visualize the behavior of the data.
+This can be achieved by using _unidimensional plots_ and _multidimensional plots_. These plots are considered in order to present how each feature behaves
+by itself and how it behaves with others.
+
+### Unidimensional plots
+For the unidimensional plots we will make use of bar plots to see how many observations are categorized in a single label, and for the numeric features we
+will use box plots in order to see how the numeric data is statistically presented.
+
+```{r unidimensional-plots, fig.width=4, fig.show='hold'}
+boxplot(iris_train$Sepal.Length, xlab = "Sepal Length", ylab = "cm")
+boxplot(iris_train$Sepal.Width, xlab = "Sepal Width", ylab = "cm")
+boxplot(iris_train$Petal.Length, xlab = "Petal Length", ylab = "cm")
+boxplot(iris_train$Petal.Width, xlab = "Petal Width", ylab = "cm")
+barplot(table(iris_train$Species), main = "Species labels count")
+```
+
+With this we can visualize the general behavior of the four measurements features of the datasets. Now we will visualize the labeled plotted unidimensional
+data. This data represent the average of measurements found by each species of flower in the dataset.
+
+```{r unidimensional-bar-plots, fig.width=4, fig.show='hold'}
+setosa <- iris_train[iris_train$Species == "setosa", ]
+versicolor <- iris_train[iris_train$Species == "versicolor", ]
+virginica <- iris_train[iris_train$Species == "virginica", ]
+
+barplot(
+    colMeans(setosa[1:4]),
+    names.arg = c("Sepal length", "Sepal width", "Petal length", "Petal width"),
+    main = "Setosa",
+    cex.names = 0.5
+)
+barplot(
+    colMeans(versicolor[1:4]),
+    names.arg = c("Sepal length", "Sepal width", "Petal length", "Petal width"),
+    main = "Versicolor",
+    cex.names = 0.5
+)
+barplot(
+    colMeans(virginica[1:4]),
+    names.arg = c("Sepal length", "Sepal width", "Petal length", "Petal width"),
+    main = "Virginica",
+    cex.names = 0.5
+)
+```
+
+### Multidimensional plots
+For the multidimensional plots we will make use of scatter plots in order to visualize the correlations between each pair of measurements in the three
+groups of data.
+
+```{r multidimensional-plots, fig.width=4, fig.show='hold'}
+plot(
+    iris_train$Sepal.Length,
+    iris_train$Sepal.Width,
+    main = "Sepal Length vs. Sepal Width",
+    xlab = "cm",
+    ylab = "cm"
+)
+plot(
+    iris_train$Petal.Length,
+    iris_train$Petal.Width,
+    main = "Petal Length vs. Petal Width",
+    xlab = "cm",
+    ylab = "cm"
+)
+plot(
+    iris_train$Sepal.Length,
+    iris_train$Petal.Length,
+    main = "Sepal Length vs. Petal Length",
+    xlab = "cm",
+    ylab = "cm"
+)
+plot(
+    iris_train$Sepal.Width,
+    iris_train$Petal.Width,
+    main = "Sepal Width vs. Petal Width",
+    xlab = "cm",
+    ylab = "cm"
+)
+```
+
+Finally, we will visualize the correlation of each feature against the others with a _feature plot_, which puts into perspective the differences of
+each species based on each feature showed in the data.
+
+```{r feature-plot, fig.width=10, fig.height=10}
+AppliedPredictiveModeling::transparentTheme(trans = .4)
+caret::featurePlot(
+    x = iris_train[, 1:4],
+    y = as.factor(iris_train$Species),
+    plot = "ellipse",
+    auto.key = list(columns = 3)
+)
+```
+
+## Fifth step: Generate and train the ML models with the training data
+Now that we know our data and how it is composed, we can start training the **Machine Learning models** to classify our data and afterwards predict
+new data. For now, we do not know which will be the best model, mainly because of how the data is composed. For this reason, we will train three
+different models and decide which will be the best option to predict our data.
+
+Before we start predicting our models, we must set the _train control_, which will define the ground rules and parameters that our models will follow
+during the training. For this, we will create a variable known as _train\_control_, which will be passed to each of our models. Its parameters will
+follow a method of _repeated cross-validation_, which will split the dataset into a number of parts and train with them accordingly. For this case, we
+will use a _10-fold cross-validation_ method, which will split the dataset into ten equal parts, then it will train with 9 of them and test with the last
+part, and repeat it ten times in order to train and test each part of the training dataset. Afterwards, we will generate a repetition property, which
+makes the model to repeat this process any number of times in order to get the best possible accuracy.
+
+For this case, we will train the _k-Nearest Neighbors_, _Support Vectorial Machine_ and _Random forest_ models, which will help us classify the data
+and test the different behaviors of each model.
+
+```{r model-trianing}
+train_control <- caret::trainControl(
+    method = "repeatedcv",
+    p = 0.9,
+    number = 10,
+    repeats = 3
+)
+
+knn_fit <- caret::train(
+    Species ~ .,
+    data = iris_train,
+    method = "knn",
+    trControl = train_control,
+    tuneLength = 20,
+    preProcess = c("center", "scale")
+)
+
+svm_linear_fit <- caret::train(
+    Species ~ .,
+    data = iris_train,
+    method = "svmLinear",
+    trControl = train_control,
+    preProcess = c("center", "scale"),
+    tuneGrid = expand.grid(C = seq(1, 2, length = 20))
+)
+
+rf_fit <- caret::train(
+    Species ~ .,
+    data = iris_train,
+    method = "rf",
+    trControl = train_control,
+    tuneLength = 20,
+    metric = "Accuracy",
+    preProcess = c("center", "scale")
+)
+```
+
+Once the models have been trained, a report must be submitted in order to determine which of them has the best accuracy overall after training the dataset.
+For this, we will pass them into a list and report their performance. Afterwards, we will see their trianing plots and how their accuracy tests went.
+
+```{r model-report, fig.show='hold', fig.width=3}
+created_models <- list(knn_fit, svm_linear_fit, rf_fit)
+print(created_models)
+plot(knn_fit)
+plot(svm_linear_fit)
+plot(rf_fit)
+```
+
+## Sixth step: Decide which is the best model and make predictions with it
+Based on the accuracy tests of each model and their overall performance, the **SVM** model is considered to be the best model, mainly because in every scenario
+it shows a better accuracy than the other models. With this information, we can proceed to make predictions with this model based in or _test dataset_, which
+contains the unused data of the original dataset. We will generate the predictions and report them in order to visualize how well the training went.
+
+```{r predictions}
+pred_data <- predict(
+    object = svm_linear_fit,
+    newdata = iris_test
+)
+
+comparison <- data.frame(
+    iris_test$Species,
+    pred_data,
+    ifelse(iris_test$Species == pred_data, "Success", "Failure")
+)
+colnames(comparison) <- c("Real", "Prediction", "Status")
+knitr::kable(comparison)
+```

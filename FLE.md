@@ -1,9 +1,23 @@
----
-created: 2022-09-22T17:17:14+02:00
-modified: 2022-09-22T17:52:07+02:00
----
+# Contents
 
-# FLE
+- [Contents](#contents)
+- [Classe de 12/09/2022](#classe-de-12092022)
+  - [Activité avec _Qui, que, où, dont_](#activité-avec-qui-que-où-dont)
+    - [Completez les phrases avec un pronom relatif simple](#completez-les-phrases-avec-un-pronom-relatif-simple)
+- [Classe de 19/09/2022](#classe-de-19092022)
+  - [Devoir: clase 3 - diapos 9, 10, 11](#devoir-clase-3---diapos-9-10-11)
+    - [1. Observez las phrases suivantes. Quelles phrases expriment une action? Est-ce que l'imparfait exprime toujours une description?](#1-observez-las-phrases-suivantes-quelles-phrases-expriment-une-action-est-ce-que-limparfait-exprime-toujours-une-description)
+    - [2. Quelle est la fonction de chaque temps? Complétez le tableau. _Certaines phrases peuvent correspondre à plusieurs emplois_.](#2-quelle-est-la-fonction-de-chaque-temps-complétez-le-tableau-certaines-phrases-peuvent-correspondre-à-plusieurs-emplois)
+    - [3. Conjuguez les verbes au passé composé ou à l'imparfait et dites à quel emploi du tableau correspondent les phrases.](#3-conjuguez-les-verbes-au-passé-composé-ou-à-limparfait-et-dites-à-quel-emploi-du-tableau-correspondent-les-phrases)
+
+# Classe de 12/09/2022
+
+## Activité avec _Qui, que, où, dont_
+### Completez les phrases avec un pronom relatif simple
+
+J'habite dans une ville _**que**_ j'aime beaucoup. C'est une ville _**où**_ il y a  beaucoup d'espaces verts, beaucoup de jardins publics. Il y a aussi des arbres dans les rues, les arbres _**dont**_ je vous parle ont plus de cent ans et cela donne du carme à la ville. Dans ma ville, il y a aussi un centre culturel _**qui**_ propose des activités  _**que**_ m'intéressent beaucoup. Ce centre culturel est un endroit _**où**_ les gens peuvent apprendere le théâtre, la danse, la musique. C'est un lieu très dynamique _**qui**_ propose aussi desconcerts et des spectacles très variés _**dont**_ les habitants apprécient toujors. Les jours _**où**_ il y a des spectacles, il y a toujours beaucoup de monde et tous les billets sont vendus. Je crois _**q' (que)**_ un centre culturel comme celui-là est très utile. C'est quelque chose _**que**_ tout le monde a besoin et _**dont**_ tout le monde est très content!
+
+# Classe de 19/09/2022
 
 ## Devoir: clase 3 - diapos 9, 10, 11
 
@@ -23,12 +37,106 @@ modified: 2022-09-22T17:52:07+02:00
 
 ### 2. Quelle est la fonction de chaque temps? Complétez le tableau. _Certaines phrases peuvent correspondre à plusieurs emplois_.
 
-|                   | Passé composé | Passé imperfait |
-| :--------------: | :------------------------: | :------------------------: |
-| Temps utilisés seuls | - Exprime une action ponctuelle... | |
-|                      |   - Example: .......
+<table>
+  <thead>
+    <tr>
+      <th>
+      </th>
+      <th align="center">
+        Passé composé
+      </th>
+      <th align="center">
+        Imparfait
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>Temps utilisés seuls</b></td>
+      <td>
+        <ul>
+          <li>
+            Exprime une action ponctuelle. <br>
+              <i>Exemple: ...</i>
+          </li>
+          <li>
+            Exprime une action delimitée dans le temps. <br>
+              <i>Exemple: ...</i>
+          </li>
+          <li>
+            Exprime des actions que sont produits les unes après les autres. <br>
+              <i>Exemple ...</i>
+          </li>
+        </ul>
+      </td>
+      <td>
+        <ul>
+          <li>
+            Permet de faire une description <i>(cadre, états, émotions...)</i>.<br>
+              <i>Exemples: phrases d', ..., ...</i>
+          </li>
+          <li>
+            Exprime une action sans durée limitée. <br>
+              <i>Exemples: ..., ...</i>
+          </li>
+          <li>
+            Exprime des actions repetitives, des habitudes. <br>
+              <i>Exemple: ...</i>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Temps liés dans un récit, utilisés l'un après l'autre</b>
+      </td>
+      <td>
+        <ul>
+          <li>
+            Introduit un changement. <br>
+              <i>Exemple: ...</i>
+          </li>
+        </ul>
+      </td>
+      <td>
+        <ul>
+          <li>
+            Décrit une situation passée. <br>
+              <i>Exemple: ...</i>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Temps liés dans un récit, utilisés en ensemble</b>
+      </td>
+      <td>
+        <ul>
+          <li>
+            Exprime les événements de l'histoire passée. <br>
+              <i>Exemples: ..., ...</i>
+          </li>
+        </ul>
+      </td>
+      <td>
+        <ul>
+          <li>
+            Décrit le contexte <i>(cadre, états, émotions)</i> de l'histoire passée. <br>
+              <i>Exemples: ..., ...</i>
+          </li>
+        </ul>
+      </td>
+    </tr> 
+  </tbody>
+</table>
 
-- Exprime une action délimité dans le temps.
-
-  - Example: .......  |osdjfaposdjfaposdijf |
-
+### 3. Conjuguez les verbes au passé composé ou à l'imparfait et dites à quel emploi du tableau correspondent les phrases.
+1. Pendant deux ans, il (faire) ... ... plusieurs voyages au Maroc.
+2. J'(adorer) ...... le jus de pomme de mon grand-père quand j'(être) ...... petite.
+3. Pour Noël notre classe (décider) ...... de préparer un spectacle de musique.
+4. Au collège, je (préférer) ...... faire mes devoirs avec Marco, mais quand il (déménager) ...... , je (devoir) ...... étudier seul.
+5. Paul (rencontrer) ...... Sophie à Mulhouse et ils (se marier) ..... l'année suivante.
+6. À l'époque, tu (étudier) ...... à l'université.
+7. Le déjeuner (être) ...... prêt quand nous (rentrer) ...... à la maison.
+8. Ma grand-mère (venir) ...... souvent chez nous avec un de ses délicieux gâteaux.

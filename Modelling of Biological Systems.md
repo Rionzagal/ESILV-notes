@@ -1,5 +1,3 @@
-# INTRODUCTION
-
 - [INTRODUCTION](#introduction)
   - [Syllabus](#syllabus)
   - [Introduction to modeling](#introduction-to-modeling)
@@ -15,7 +13,12 @@
     - [Do not be boring for the audience](#do-not-be-boring-for-the-audience)
     - [Do not distract the audience](#do-not-distract-the-audience)
     - [The presenter (YOU)](#the-presenter-you)
-
+- [Discrete-Time Models](#discrete-time-models)
+    - [Fibonacci population growth model](#fibonacci-population-growth-model)
+    - [Exponential population growth](#exponential-population-growth)
+    - [Logistic population growth](#logistic-population-growth)
+    - [Natural selection in a clonal population](#natural-selection-in-a-clonal-population)
+# INTRODUCTION
 ## Syllabus
 - Introduction to Modeling (mathematical approach)
 - Introduction to R programming and application with Swirl
@@ -109,3 +112,67 @@ Some variables have a randomized behavior.
 > - An **Oral** part in class. Individual, for 5 minutes. An article of your choice and its content in the cleares way.
 >   - Send by e-mail the title of the chose article.
 > - A **Written** part to be sent in _PDF_ by e-mail. Where oyu will have to write in group an article (max. 5 persons/group). Synthesis on research concerning a single disease of your choice and the associated studi biological models.
+
+# Discrete-Time Models
+
+**Discrete-time** models are sequences of numbers that follow certain rules.
+
+### Fibonacci population growth model
+
+The Fibonacci model assumed pairs of rabbits that start mating after one month of growth and then indefinitely reproduce a new couple of baby rabbits each month.
+> Following the Fibonacci Series: 1 1 2 3 5 8 13 ... $(a_n + a_{(n-1)})$
+
+### Exponential population growth
+
+Consider a population of asexually reproducing individuals. In each generation, each individual produces on average $a$ offsprings. ...
+
+### Logistic population growth
+
+Assume that the numbero of surviving offspring that an individual produces is not constant but instead devreases with increasing population size.
+
+- $N$ is the size of the population
+- $M$ is the maximum population size
+- $b$ is the maximum number of offspring an individual can produce.
+- $x$ is defined as the population size relative to the maximum population.
+
+Lets describe the logistic equations as following.
+
++  $N_{t+1} = a(N)N_t$
+   +  $a = a(N) = b(1 - \frac{N}{M})$
++  $N_{t+1} = b(1 - \frac{N_t}{M})N_t$
++  $x_t := \frac{N_t}{M}$
++  $x_{t+1} = b(1 - x_t)x_t$
++  $x_{t+1} = bx_t - x_t^2$
+
+The graphical method is a great way of intuitively grasping discrete-time models with one variable, sucha se the logistic growth model. <br>
+It lets you know the behavior of the model by generating a graphic based on the relative population values, and tracing a function such as $x_{t-1} = x_t$ in order to find the equilibrium intersections of the model.
+
+The equilibrium intersections are found following the _zeros_ of the equation:
+
+$$ 
+  f(\hat{x}) = \hat{x}
+$$
+
+
+- An equilibrium is called **locally stable** if the system converges to the equilibrium value when starting from sufficiently close by in any iteration of the model.
+- When the equilibrium is **locally unstable**, the model will de-stabilize when a small perturbance is applied to it while it is in its local equilibrium.
+
+
+### Natural selection in a clonal population
+
+Let us consider how selection operates in a simple, **clonal population**.<br>
+We assume that there is only a single round of reproduction following which in the parental generation dies.
+
+- $N$ is the size of the population, now constant.
+- Two genotypes:
+  - Type **A** produces $k$ offspring individuals per round.
+  - Type **B** produces $(1 + s)k$ offspring individuals.
+- $s$ is called the _selection coefficient_.
+
+$$
+  \begin{cases}
+    n_A^0 = ka(t)
+    \\
+    n_B^0 = (1 + s)kb(t)
+  \end{cases}
+$$

@@ -25,7 +25,6 @@ summary(log_model)
 plot(log_model, 1)
 
 # Predict values using the generated model
-# TODO: Check if these expressions are correct in class
 predict(log_model, newdata = data.frame(lstat = c(5)))
 predict(log_model, newdata = data.frame(lstat = c(5, 10, 15)))
 
@@ -55,7 +54,7 @@ corr
 
 # Generate a linear model and find the coefficients
 sales_model <- lm(sales ~ youtube, data = marketing)
-summ <- summary(sales_model) # sales = 8.44 + 0.048*youtube
+summ <- summary(sales_model) # sales = 8.44 + 0.048*youtube # nolint
 
 # Add regression line to the scatter plot
 library(ggplot2)
@@ -65,4 +64,35 @@ p + stat_smooth(method = lm)
 
 coeff <- (sales_model$coefficients)
 b1 <- coeff[names(coeff) == "youtube"] # The value is 0.0475
-confint(sales_model, param = "youtube", level = 0.95)
+confidence_int <- confint(sales_model, param = youtube, level = 0.95)
+
+rse <- sd(sales_model$residuals)
+rse
+
+percentage_error <- rse / mean(marketing$sales)
+percentage_error
+
+p_value <- pf(312.1, 1, 198, lower.tail = FALSE)
+p_value
+# F-value is highly significant because it provides a p-value which rejects the
+# null hypotesis with at least 99% of confidence.
+
+par(mfrow = c(1, 1))
+plot(sales_model, 1)
+# No special pattern found against the standard line,
+# so we assume the relationship is linear
+
+plot(sales_model, 2)
+# Here, the residual/quantiles relationship nearly follows a straight line, so
+# we can assume normality for this case.
+
+plot(sales_model, 3)
+# Here we can see that the variance of the residuals increases for higher
+# predictor values, so we can say that this case is heteroscedastic.
+
+plot(sales_model, 5)
+# In the residuals / Leverage plot we can observe that for there are no outliers
+# that are further than 3(standard deviations) from the RSE, so they do not
+# contribute too much to the RSE.
+# Also, there are no Leverage points further than .02, which explains that there
+# is not a gigantic error between a predicted value against its residual value.

@@ -25,8 +25,8 @@ summary(log_model)
 plot(log_model, 1)
 
 # Predict values using the generated model
-predict(log_model, newdata = data.frame(lstat = c(5)))
-predict(log_model, newdata = data.frame(lstat = c(5, 10, 15)))
+predict(log_model, newdata = data.frame(lstat = c(log(5))))
+predict(log_model, newdata = data.frame(lstat = c(log(5), log(10), log(15))))
 
 # Test the model using the test_set
 prediction <- data.frame(

@@ -1,4 +1,5 @@
-# Introduction
+# Skills - Internship preparation
+
 This is so random...
 
 > First assignment in _October the 10th_

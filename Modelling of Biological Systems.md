@@ -1,4 +1,5 @@
-Modelling of Biological Systems
+# Modelling of Biological Systems
+
 - [INTRODUCTION](#introduction)
   - [Syllabus](#syllabus)
   - [Introduction to modeling](#introduction-to-modeling)

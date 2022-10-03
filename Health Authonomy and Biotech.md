@@ -1,5 +1,109 @@
 # Health Autonomy & Biotechnology: Economy of health
 
+# Introduction
+
+## Evaluations
+All of the quizzes will be multiple question quizzes at the end of the lecturer of the day. We will have the evaluation results the next lecture of the quiz.
+- Quiz 1: October 7
+- Quiz 2: November 10 `Online`
+- Conference onHealth Management: November 23
+- Session Presentations
+
+## Lecture general objectives
+Understand the next four 
+* Health organization in France /industrialized countries and its financing, management, regulation, evaluation
+* Growing interest for an improved quality of life and for research/innovation
+* Population unequal access to health systems and biotechnologies for diagnostic and therapy
+* The french society and the social responsabilities that _SB_ engineers can represent
+
+# Lecture 1
+
+## Health as a concept
+What is _Health_?
+
+This is the definition given by the **WHO**, from 1946 to  1948.
+> Health is a state of complete physical, mental and social well-being and not merely the absence of disease or infirmity. ˋThe meaning of health jas evolved odver timeˋ
+
+Introduction of the WHO constitution:
+
+International Health conference.
+
+After 2 years of deliberations/ratifications, signed by 61 countries as an **official** definition for _health_. This sets the standard aspiration to reach this state.
+
+###  Limits and critics
+Health cannot be a _state_ because it cannot be measured as a physical value of a property.
+This definition is **too broad**, so everybody in the international health conference at the time would be satisfied.
+This definition is considered _idealistic_, ignoring the _spiritual, environmental and cultural dimensions of the concept_.
+
+Another definition, in 1986 at The Ottawa Charter for Health |
+
+> The fundamental conditions and resources for health are: 
+>> peace, shelter, education, food, income, a stable eco-system, sustainable resources, social justice and equity
+
+This _definition_ is mainly considering the Biological, individual and social dimensions of the concept
+
+#### Individual
+- Fundamental human right 
+- Central to the concept of quality of life/autonomy
+
+#### State involvement
+- Worldwide social goal
+- Involves individual, state and interrnational responsibility
+Its maintenance is a major social investment
+
+## Towards Health Economy
+After the end of the WWII, the French government started thinking about _health economy_ in order to start reconstructing and standing up again of the struggles of the war. 
+
+The Health Economy in France started with 2 major key periods:
+* Medical economy `Around 1950`
+* Healdth economy `Around 1970`
+
+#### 1950
+Public authorities preoccupie by health spendings, thinking that no matter the cost, they should be covered.
++ Not to reduce them
++ But to ensure Legitimate but costly expenditure is covered
+The public authoities that acted in this context were **NOT** political figures, but **doctors of the Medical Department** close to the public scene
+The creation of CREDOC _(Research and Documentation Center on Consumption)_ and the DEM _(Medical economy division)_
+They performed the studies on medical sendings: observation, not control.
+> Comptes Nationaux de la Consommation (1ère Comptes de santé)
+
+From **Health Economy**, the French government passed to **Medical Economy**.
+
+#### 1960
+The **Medical Economy** concept is concreted, and a Universal health insurance (Assurance maladie, 1958) is presented to cover the entirety of the french population's medical expenditures.
+
+This system seems perfect, until the 70's, which present the problems on the lack of control over the health expenditures.
+
+#### 1970
+The economic growth is slowing down, so the government searches for different ways of how to decrease the most important spendings.
+Under prime minister michel Debré and president De Gaulle Operation of French Ministry of Economy and Finance **Rationalization of budget choices** _(Rationalisation des choix budgétaires)_
+Public actions made in economic terms to prioritise investment scenario according to efficiency.
+Public actions were made in order to reduce the expenditures in the economic scenarios.
+> Use of costs/advantages ratios
+>> Investment vs Saved lives
+
+Started the usage of Mathematical tools to allocate budgets.
+The decision power is not given to the **MD**, but rather given to the **Economist engineers**, which consider more relevant the **spendings** than the **health considerations**.
+
+Health RBC cell transfered from Miistry of Economy and Finance to the Ministry of Health.
+> Health -> Health and its spendings
+
+In a few months, studies were conducted over:
++ Flu vaccination
++ Mental health management
++ Perinatal management
+
+Its main criticism was the a priori decisions over the studies because of the lack of medical considerations and resources to process these studies.
+
+#### Nowadays
+Several dimensions orr ministries are actually involved and cooperating Economic, legal, sociala, sociological, religious, cultural, anthropological...
+
+1. Human sciences
+    + Equity and philosophical bases forr healt/wellness/autonomy
+    + Orient public politicies
+2. Exact/technical sciences and medicine
+    + Shape health/wellness/autonomy
+
 # Lecture 2: The french health system
 
 ## Organization and management
@@ -222,4 +326,4 @@ Beacon dates and researchers/health economists:
   
 - **France:**
   - Lise Rochaix _(1997)_: _Individual_ vs _economical_ aspect and the whole chain involved.
-    - When you express a **health need** to a practitioner, it becomes a **health demand**, and in order to take care of it, there is also an **economical need** to satisfy this individual need that impacts the _health system_ as a whole. 
+    - When you express a **health need** to a practitioner, it becomes a **health demand**, and in order to take care of it, there is also an **economical need** to satisfy this individual need that impacts the _health system_ as a whole.

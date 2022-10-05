@@ -46,6 +46,6 @@ This method is used to talk about an experience.
   - State the impact of your actions
   - Describe factualy the result that your action has generated. Quantify whenever is possible.
 
-1. Course analysis table (in DVO)
-2. Update LinkedIn profile (experiences with [STAR](#the-star-method) method.)
-3. Search for Alumni whose job and/or company interests me
+- [ ] Course analysis table (in DVO)
+- [ ] Update LinkedIn profile (experiences with [STAR](#the-star-method) method.)
+- [ ] Search for Alumni whose job and/or company interests me

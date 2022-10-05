@@ -1,5 +1,52 @@
 # Health Autonomy & Biotechnology: Economy of health
 
+- [Health Autonomy & Biotechnology: Economy of health](#health-autonomy--biotechnology-economy-of-health)
+- [Introduction](#introduction)
+  - [Evaluations](#evaluations)
+  - [Lecture general objectives](#lecture-general-objectives)
+- [Lecture 1](#lecture-1)
+  - [Health as a concept](#health-as-a-concept)
+    - [Limits and critics](#limits-and-critics)
+      - [Individual](#individual)
+      - [State involvement](#state-involvement)
+  - [Towards Health Economy](#towards-health-economy)
+      - [1950](#1950)
+      - [1960](#1960)
+      - [1970](#1970)
+      - [Nowadays](#nowadays)
+- [Lecture 2: The french health system](#lecture-2-the-french-health-system)
+  - [Organization and management](#organization-and-management)
+  - [Funding](#funding)
+    - [French Medical Insurance](#french-medical-insurance)
+    - [Insurance companies and mutual funds:](#insurance-companies-and-mutual-funds)
+    - [Public finances (The State)](#public-finances-the-state)
+    - [Households](#households)
+  - [Delivery of care](#delivery-of-care)
+    - [Outpationt care (non-hospital-based care)](#outpationt-care-non-hospital-based-care)
+    - [Hospital care](#hospital-care)
+    - [Groupments hospitaliers de territoires _(GHT)_](#groupments-hospitaliers-de-territoires-ght)
+    - [Long-term care](#long-term-care)
+    - [Pharmacy](#pharmacy)
+  - [State intervention and regulation](#state-intervention-and-regulation)
+    - [Regional Health Agences](#regional-health-agences)
+      - [Inspection and control missions](#inspection-and-control-missions)
+    - [ANSM](#ansm)
+      - [ANSES](#anses)
+    - [HAS (High Health Authority)](#has-high-health-authority)
+- [Lecture 3: Health Supply and Demand: Market and Particularities](#lecture-3-health-supply-and-demand-market-and-particularities)
+  - [Health demand and healthcare demand](#health-demand-and-healthcare-demand)
+    - [Health, a specific product](#health-a-specific-product)
+    - [Health needs](#health-needs)
+    - [From health needs to healthcare demands](#from-health-needs-to-healthcare-demands)
+  - [Health supply: uncertainty and risk](#health-supply-uncertainty-and-risk)
+    - [Definition](#definition)
+    - [Market uncertainty and risk](#market-uncertainty-and-risk)
+  - [Health supply: Concurrency, monopole and regulation](#health-supply-concurrency-monopole-and-regulation)
+    - [Concurrency](#concurrency)
+    - [Concurrency: induced demand](#concurrency-induced-demand)
+    - [Private health insurance](#private-health-insurance)
+    - [Monopole and regulation](#monopole-and-regulation)
+
 # Introduction
 
 ## Evaluations
@@ -38,7 +85,14 @@ This definition is considered _idealistic_, ignoring the _spiritual, environment
 Another definition, in 1986 at The Ottawa Charter for Health |
 
 > The fundamental conditions and resources for health are: 
->> peace, shelter, education, food, income, a stable eco-system, sustainable resources, social justice and equity
+> - peace
+> - shelter
+> - education
+> - food
+> - income
+> - a stable eco-system
+> - sustainable resources
+> - social justice and equity
 
 This _definition_ is mainly considering the Biological, individual and social dimensions of the concept
 
@@ -327,3 +381,48 @@ Beacon dates and researchers/health economists:
 - **France:**
   - Lise Rochaix _(1997)_: _Individual_ vs _economical_ aspect and the whole chain involved.
     - When you express a **health need** to a practitioner, it becomes a **health demand**, and in order to take care of it, there is also an **economical need** to satisfy this individual need that impacts the _health system_ as a whole.
+
+## Health supply: uncertainty and risk
+### Definition
+### Market uncertainty and risk
+
+## Health supply: Concurrency, monopole and regulation
+### Concurrency
+
+In France, there has been a brutal increase in practitioners numbers between 1970 and 1990. This increase in the amount of practitioners cannot be explained by the health demand of health in the country.
+
+### Concurrency: induced demand
+
+Theory:
+Practitioners provide more than the demands expressed by the patient and are able to influence them by advising: 
+- More technical acts
+- More consults
+
+> Introduced in 1973 by _R. G. Evans, (American health economist)_.
+
+This will virtually inflate the number of consults and thus the cost of the medical practice without a real necessity to abide for it. So the quality of the medical practice deteriorates due to these unnecessary, **induced** health demand.
+
+There are two factors that cause this effect...
+- The behaviour particularly observable for practitioners paid per medical act (_médecins libéraux en France_).
+  >  
+- Insure their _goal income_, in a context of **high concurrency**.
+
+### Private health insurance
+
+This is an actor in the health supply.
+Dysfunction:
+- An individual in a _poor health state_ tends to purchase an insurance **more frequently** than an individual with a _regular_ or _high health state_.
+  > This is allowed, but it unbalances the health market because is virtually increasing the demand numbers.
+
+- Actuarially-fixed premium (prime d'assurance)
+  - Premium cost based on general statistics of risk mortality based on morbidity general statistics / patient health history
+  - Selecting covered risks in order to avoid reinbursing risks of high mortallity.
+
+### Monopole and regulation
+
+> Remider: the health system goal is the redistribution of wealth i favor of low incomes (_who also are the sickest_)
+
+In order to help achieve the goal, there is:
+- State intervention
+- Regulation in health private insurances and their coverage.
+- Public monopole: Even thoug the health system is not reinbursing everything, the public health system is the one that dominates the health market.

@@ -1,0 +1,104 @@
+---
+title: "Gonzalez_Mario_40"
+author: "PWD-3 "
+date: "05/10/2022"
+output:
+    github_document:
+        toc: true
+        math_method:
+            engine: webtex
+            url: http://chart.apis.google.com/chart?cht=tx&chl=
+---
+
+In this document we will explore the Multiple Linear Regression using the __Boston__ dataset. This dataset records the median values
+of the houses of 506 neighbourhoods in Boston. We have the dependent variable `medv` in the dataset as the median value of the houses.
+
+# Loading the dataset.
+
+In this section, we will upload the _Boston_ dataset into the R session from the _MASS_ package.
+
+```{r dataset-load}
+library(MASS)
+data(Boston)
+knitr::kable(head(Boston))
+```
+
+As we can see, we can see the different variables that compose the dataset, and at the right side of the table, we can see the _medv_
+posed as the median value of the houses.
+
+# Split the dataset into training and test sets
+
+In this section, we will take the dataset and split it into fixed sets _(**training** set and **test** set)_. We will take the
+_train-test ratio_ will be 80% to 20% of training and test sets, meaning that we will take 400 observations for the training set
+and the rest of the observations for the test set.
+
+```{r split-sets}
+boston_train <- Boston[1:400, ]
+boston_test <- Boston[401:506, ]
+
+summary(boston_train)
+knitr::kable(head(boston_train))
+
+summary(boston_test)
+knitr::kable(head(boston_test))
+```
+
+# Check relationship between variables
+
+We then have to check if there is a linear relationship between the `age` and `medv` variables.
+
+```{r linear-relation}
+print(cor(boston_train$age, boston_train$medv))
+```
+
+As we can see from the result, there is a very weak linear relationship between the `age` and the `medv` variables of the dataset.
+This means that if there is a relationship between both variables, it is definitely a non-linear relationship, and it is more complex
+than a simple line.
+
+# Fit a linear model of the house pricing in function of age
+
+In this step we will fit a model of the house pricing based on the `age` variable and visualize its behaviour with the actual data.
+
+```{r age-model}
+age_model <- lm(medv ~ age, data = boston_train)
+summary(age_model)
+
+plot(
+    boston_train$age,
+    boston_train$medv,
+    col = "blue",
+    cex = 1,
+    pch = 16,
+    main = "House pricing by age",
+    ylab = "median value (medv)",
+    xlab = "age (age)"
+)
+abline(age_model, col = "red")
+```
+
+As we can see in the model, the regression line is described as a linear model as we used `medv ~ age` in the linear model fitting.
+This gave us a linear function with the form $Y = mx + b$, using the parameters seen above.
+
+# Train a linear model using _age_ and _lstat_ as predictors
+
+In this step we will generate a model that will describe the behaviour of the `medv` variable using the `age` and `lstat` variables as
+predictors. Taking in account that in the _PW2_ document we used a similar model using `lstat` as a predictor, we will apply the same
+modification as that model, and use `log(lstat)` instead of using it directly.
+
+```{r 2-predictors-model}
+lstat_age_model <- lm(medv ~ log(lstat) + age, data = boston_train)
+summary(lstat_age_model)
+```
+
+In this case, we can see that the obtained model is a non-linear model, described by the equation $Y = b_1log(x_1) + b_2x_2 + c$. As we
+can see, the model uses now two factor parameters $b_1$ and $b_2$ for the predictors. The summary of the model shows levels of
+significance for $P_{log(lstat)} < 2*10^{-16}$ and $P_{age} = 8.85*10^{-12}$, which means a very high level of significance for each of
+the predictor parameters. The levels of significance show that the variable `log(lstat)` is more significant to the model than the
+`age` variable, although the `age` is highly significant to this model.
+
+The summary of this model shows as a _F-statistic_ score of 400.1 using the Fisher method with 397 degrees of freedom. This score leads
+us to obtain a general $P$ value of $P < 2*10^{-16}$, which means that we are confident _(more than 99.99%)_ that the model correctly
+describes the behaviour of the data we are presenting. To summarize, we can say that **this model is highly significant as a whole**.
+
+# Training a model using all of the variables in the dataset
+

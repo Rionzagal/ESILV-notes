@@ -102,3 +102,23 @@ describes the behaviour of the data we are presenting. To summarize, we can say 
 
 # Training a model using all of the variables in the dataset
 
+In this section we will train a new model using all of the available variables in the dataset. We will fit the model using a linear
+function in order to see how the variables interact with each other. 
+
+```{r model-with-all}
+model_all <- lm(medv ~ ., data = boston_train)
+summary(model_all)
+```
+
+As we see above, this new model implements all of the data in our dataset, and it also is described by a linear equation containing each
+of the variables to describe the median value of the houses of each neighbourhood. This model uses all of the variables directly, so it
+essentially undid the transformation applied to the variable `lsat`. We will train our next model taking the logarithmic transformation
+in account.
+
+```{r model-all-log-lstat}
+model_all_log <- lm(
+    medv ~ log(lstat) + crim + zn + indus + chas + nox + rm + age + dis + rad + tax + ptratio + black, # nolint
+    data = boston_train
+)
+summary(model_all_log)
+```

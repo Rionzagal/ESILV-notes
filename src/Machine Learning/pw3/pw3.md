@@ -280,3 +280,91 @@ summarize, we can say that **this model is highly significant as a
 whole**.
 
 # Training a model using all of the variables in the dataset
+
+In this section we will train a new model using all of the available
+variables in the dataset. We will fit the model using a linear function
+in order to see how the variables interact with each other.
+
+``` r
+model_all <- lm(medv ~ ., data = boston_train)
+summary(model_all)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = medv ~ ., data = boston_train)
+    ## 
+    ## Residuals:
+    ##      Min       1Q   Median       3Q      Max 
+    ## -20.5636  -2.6945  -0.6151   1.6949  25.0328 
+    ## 
+    ## Coefficients:
+    ##               Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)  28.672600   6.151703   4.661 4.34e-06 ***
+    ## crim         -0.191246   0.054036  -3.539 0.000450 ***
+    ## zn            0.044229   0.014111   3.134 0.001854 ** 
+    ## indus         0.055221   0.065532   0.843 0.399944    
+    ## chas          1.716314   0.891171   1.926 0.054850 .  
+    ## nox         -14.995722   4.557588  -3.290 0.001093 ** 
+    ## rm            4.887730   0.484947  10.079  < 2e-16 ***
+    ## age           0.002609   0.014330   0.182 0.855615    
+    ## dis          -1.294808   0.211724  -6.116 2.36e-09 ***
+    ## rad           0.484787   0.087347   5.550 5.31e-08 ***
+    ## tax          -0.015401   0.004447  -3.463 0.000594 ***
+    ## ptratio      -0.808795   0.140085  -5.774 1.60e-08 ***
+    ## black        -0.001292   0.006537  -0.198 0.843381    
+    ## lstat        -0.517954   0.059511  -8.704  < 2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 4.808 on 386 degrees of freedom
+    ## Multiple R-squared:  0.7339, Adjusted R-squared:  0.7249 
+    ## F-statistic: 81.87 on 13 and 386 DF,  p-value: < 2.2e-16
+
+As we see above, this new model implements all of the data in our
+dataset, and it also is described by a linear equation containing each
+of the variables to describe the median value of the houses of each
+neighbourhood. This model uses all of the variables directly, so it
+essentially undid the transformation applied to the variable `lsat`. We
+will train our next model taking the logarithmic transformation in
+account.
+
+``` r
+model_all_log <- lm(
+    medv ~ log(lstat) + crim + zn + indus + chas + nox + rm + age + dis + rad + tax + ptratio + black, # nolint
+    data = boston_train
+)
+summary(model_all_log)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = medv ~ log(lstat) + crim + zn + indus + chas + nox + 
+    ##     rm + age + dis + rad + tax + ptratio + black, data = boston_train)
+    ## 
+    ## Residuals:
+    ##      Min       1Q   Median       3Q      Max 
+    ## -18.2659  -2.6704  -0.2681   1.8802  23.5614 
+    ## 
+    ## Coefficients:
+    ##               Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)  48.806352   5.893689   8.281 2.02e-15 ***
+    ## log(lstat)   -8.795266   0.645758 -13.620  < 2e-16 ***
+    ## crim         -0.178036   0.048043  -3.706 0.000242 ***
+    ## zn            0.026440   0.012689   2.084 0.037844 *  
+    ## indus         0.033649   0.058697   0.573 0.566804    
+    ## chas          1.546766   0.801204   1.931 0.054271 .  
+    ## nox         -14.007310   4.095065  -3.421 0.000692 ***
+    ## rm            3.321905   0.461808   7.193 3.31e-12 ***
+    ## age           0.030437   0.013144   2.316 0.021104 *  
+    ## dis          -1.109645   0.191150  -5.805 1.34e-08 ***
+    ## rad           0.418017   0.078728   5.310 1.86e-07 ***
+    ## tax          -0.014570   0.003994  -3.648 0.000300 ***
+    ## ptratio      -0.736532   0.126126  -5.840 1.11e-08 ***
+    ## black        -0.001398   0.005866  -0.238 0.811709    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 4.321 on 386 degrees of freedom
+    ## Multiple R-squared:  0.785,  Adjusted R-squared:  0.7777 
+    ## F-statistic: 108.4 on 13 and 386 DF,  p-value: < 2.2e-16

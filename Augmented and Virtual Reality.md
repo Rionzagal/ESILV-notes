@@ -61,7 +61,21 @@ Some of the input devices are:
 - Sensors
 - Gestures
 
+# Before VR
 
+First stereoscope created by the english physicist Charles Wheatstone, who submitted a paper to the Royal Academy in 1838.
+
+The stereoscope had two mirrors at 90° which reflected the gaze laterally towards the images, making us seeing them in 3D.
+
+Pepper's ghost is an illusion technique used in the theatre, cinema, amusement parks, etc...
+
+It is named after the English scientist Jokn Henry Pepper.
+
+Rality-virtuality continuum (Paul Milgram, 1994)
+
+A continuous scale that goes from the all real to the all virtual spectrum of the human interaction.
+
+It encompasses all the possible compositions of the Human Machine Interactions.
 
 [Jetman Vince Video]: https://www.youtube.com/watch?app=desktop&v=PBZJ4aRyz_k "Le Jetman Vince Reffet s'offre un vol « historique » dans le ciel de Dubaï -- Youtube"
 [Hello Jetman video]: https://www.youtube.com/watch?app=desktop&v=_VPvKl6ezyc "Hello Jetman -- Youtube"

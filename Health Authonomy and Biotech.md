@@ -15,9 +15,20 @@
       - [1970](#1970)
       - [Nowadays](#nowadays)
 - [Lecture 2: The french health system](#lecture-2-the-french-health-system)
+  - [The French health system](#the-french-health-system)
+    - [Multiple structures of the French health system](#multiple-structures-of-the-french-health-system)
+    - [A principle](#a-principle)
+    - [A societal contract](#a-societal-contract)
   - [Organization and management](#organization-and-management)
+    - [The Ministries](#the-ministries)
+      - [State agencies or institutions](#state-agencies-or-institutions)
+        - [Regional Health Agency (Agence Régional de la Santé)](#regional-health-agency-agence-régional-de-la-santé)
+        - [Agence de la biomédicine](#agence-de-la-biomédicine)
+        - [Étabissement Français du Sang](#étabissement-français-du-sang)
+      - [Health system users and patients associations](#health-system-users-and-patients-associations)
   - [Funding](#funding)
     - [French Medical Insurance](#french-medical-insurance)
+      - [Union Nationale des Caisses d'Assurance Maladie _(UNCAM)_](#union-nationale-des-caisses-dassurance-maladie-uncam)
     - [Insurance companies and mutual funds:](#insurance-companies-and-mutual-funds)
     - [Public finances (The State)](#public-finances-the-state)
     - [Households](#households)
@@ -68,14 +79,15 @@ Understand the next four
 ## Health as a concept
 What is _Health_?
 
-This is the definition given by the **WHO**, from 1946 to  1948.
-> Health is a state of complete physical, mental and social well-being and not merely the absence of disease or infirmity. ˋThe meaning of health jas evolved odver timeˋ
+This is the definition given by the **WHO**, from 1946 to  1948:
+- Health is a state of complete physical, mental and social well-being and not merely the absence of disease or infirmity.
+> The meaning of health has evolved odver time...
 
 Introduction of the WHO constitution:
 
 International Health conference.
 
-After 2 years of deliberations/ratifications, signed by 61 countries as an **official** definition for _health_. This sets the standard aspiration to reach this state.
+After 2 years of deliberations/ratifications, this definition was signed by 61 countries as an **official** definition for _health_. This sets the standard aspiration to reach this state.
 
 ###  Limits and critics
 Health cannot be a _state_ because it cannot be measured as a physical value of a property.
@@ -110,7 +122,7 @@ After the end of the WWII, the French government started thinking about _health 
 
 The Health Economy in France started with 2 major key periods:
 * Medical economy `Around 1950`
-* Healdth economy `Around 1970`
+* Health economy `Around 1970`
 
 #### 1950
 Public authorities preoccupie by health spendings, thinking that no matter the cost, they should be covered.
@@ -160,13 +172,89 @@ Several dimensions orr ministries are actually involved and cooperating Economic
 
 # Lecture 2: The french health system
 
+## The French health system
+
+### Multiple structures of the French health system
+
+In the French health system the healthcare is dealt in different structures, which vary depending on the type of care the patient needs.
+- **Outpationet care**: Dealt when the patient goes by themselves to the health institution and see a _General Practitioner_. It is the _First Line_ of the health system.
+- **Hospital care**: This dealt when the patient goes to the health institution for an extended treatment. It is given when the patient has a life treatening condition, either urgent or planned.
+- **Social/medico-social care**: This type of care is mainly dealt to elderly populations and populations in precarious situations or situations of handicap.
+
+### A principle
+
+In essence, the patients are **free to choose** their health services in the _public_ or _private_ sectors.
+- Doctor
+- Health institution
+- Accomodation structure
+
+### A societal contract
+
+**Reimbursable benefits nomenclature**
+- Outpatient care _(General Practitioners/Specialists, dentists, midwives, ...)_
+- Hospital care in rehabilitation establishments (**Public or Private**)
+- MD-prescribed diagnostic exams and care
+  > labs/paramedical professionals, physiotherapist, speech therapist, ...
+- MD-prescribed medication, medical devices, prosthesis, ...
+  > There are exceptions to these benefits, and not all of them are covered.
+
 ## Organization and management
+
+### The Ministries
+
+They are organizations that act as the _Direct intervention of the State_ for Organizing and funding health and medico-social supply.
+
+The ministries are in chare of:
+- _Solidarités et de la santé_
+- _Action et comptes publics_ (budget, public accounts, public functions)
+
+The ministries have missions such as:
+- **Management and implementation** of public health, health surveillance, health safety policies
+- **Supervision** of health/rehabilitation institutions and **training** of the healthcare professionals
+- **Financing** health/medico-social institutions
+  > Setting medical acts' _rates_ and healthcare _expenditure control_.
+
+The ministries are divided in different types of institutions:
+- State agencies or institutions
+- Health system users and patients associations
+
+#### State agencies or institutions
+##### Regional Health Agency (Agence Régional de la Santé)
+
+This agency has the same mission at different degrees of details and levels. It was created in _2010_ to regroup administrations and improve public actions for health matters.
+
+Its mission is the **Coherent management of resources** towards equal health access in regions.
+
+##### Agence de la biomédicine
+
+This is a public and national state agency, and it is the **authority for medical, scientific and ethical** matters and rules concerning:
+* Cellular and biological tissues
+* Transplants
+* Procreation
+* Embryology
+* Human genetics
+
+This agency provides authorisation for _stem cell research_, as well as it holds the national database for _bone marrow donors_.
+
+##### Étabissement Français du Sang
+
+This is the civil entity for blood transfusion in France. Their goal is to achieve the national self-sufficiency in blood products. 
+
+This entity is in charge of:
+- **Analyses** for blood transfusion and organ transplants, immunology and donor-recipient pairing. 
+- Research (_in terms of tissue engineering, cell therapy, immunology and donor-recipient pairing_)
+
+#### Health system users and patients associations
+
+They are associations composed mainly of patients and users of the health system, and are considered as **qualified** to participate in the **surveillance actions** of health institutions. 
+
+They are the **principal withesses** of healthcare _quality and improvement_. As users, they are in **_Permanent control_** of healthcare insititutions' management.
 
 ## Funding
 
 ### French Medical Insurance
 
-The funding of the health insurance has three schemes (régime). Contributions to a fund known as _Union national des caisses d'addurance maladie (UNCAM)_.
+The funding of the health insurance has three schemes (régime). Contributions to a fund known as _Union national des caisses d'assurance maladie (UNCAM)_.
 - Workers scheme:
   - This scheme starts as soon as you start working for any company in France.
 - Self-employed scheme:
@@ -176,12 +264,12 @@ The funding of the health insurance has three schemes (régime). Contributions t
 
 > **Game rules:**
 > These rules apply to all of the scemes mentioned before.
-> 1. It is a mandatory membership. When you start working in any of the three fields (normal work, self-employment, agricultural), you have to contribute directly to the scheme that suits your case. 
-> 2. Contribution to this fund based on the income. The more you earn, the more you contribute.
-> 3. Solidarity: healthcare according to needs. This system functions according to your needs, and you use it as you need it.
+> 1. It is a **mandatory membership**. When you start working in any of the three fields (normal work, self-employment, agricultural), you have to contribute directly to the scheme that suits your case. 
+> 2. **Contribution** to this fund _based on the income_. The more you earn, the more you contribute.
+> 3. **Solidarity**: healthcare according to needs. This system functions according to your needs, and you use it as you need it.
 
-Union nationale des caisses d'assurance maladie
-Focuses on the major health risks for the insured person income. Based on the income of the asured person.
+#### Union Nationale des Caisses d'Assurance Maladie _(UNCAM)_
+Focuses on the **major health risks** for the insured person income. _Based on the income_ of the asured person.
 
 Establishes: 
 - The policy setting the **connection** between health insurance and health professionals
@@ -384,7 +472,14 @@ Beacon dates and researchers/health economists:
 
 ## Health supply: uncertainty and risk
 ### Definition
+
+The deliverance of health to meet health demands, or expressed health needs using medical goods and services _(protheses, drugs and medication, consults, exams, ...)_.
+
+> In an ideal situaltion in the health system, the **Health supply** equals the **Health demand**.
+
 ### Market uncertainty and risk
+
+In practice, the practitioners' health actions are considered as a **black box** due to their _autonomy_, meaning that there is no way for the patient to measure the way in which the practitioner is delivering the health. _(Which form does the supply actually take?)_
 
 ## Health supply: Concurrency, monopole and regulation
 ### Concurrency
@@ -400,12 +495,11 @@ Practitioners provide more than the demands expressed by the patient and are abl
 
 > Introduced in 1973 by _R. G. Evans, (American health economist)_.
 
-This will virtually inflate the number of consults and thus the cost of the medical practice without a real necessity to abide for it. So the quality of the medical practice deteriorates due to these unnecessary, **induced** health demand.
+This will virtually inflate the number of consults and thus the cost of the medical practice without a real necessity to abide for it. So the quality of the medical practice **deteriorates** due to these unnecessary, _induced_ health demand.
 
 There are two factors that cause this effect...
 - The behaviour particularly observable for practitioners paid per medical act (_médecins libéraux en France_).
-  >  
-- Insure their _goal income_, in a context of **high concurrency**.
+- Practitioners want to ensure their _goal income_, in a context of **high concurrency**.
 
 ### Private health insurance
 

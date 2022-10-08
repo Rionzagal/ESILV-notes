@@ -40,3 +40,6 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# VS Code settings and directories
+.vscode/ 

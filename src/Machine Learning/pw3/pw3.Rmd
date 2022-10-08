@@ -60,8 +60,8 @@ than a simple line.
 In this step we will fit a model of the house pricing based on the `age` variable and visualize its behaviour with the actual data.
 
 ```{r age-model}
-age_model <- lm(medv ~ age, data = boston_train)
-summary(age_model)
+model <- lm(medv ~ age, data = boston_train)
+summary(model)
 
 plot(
     boston_train$age,
@@ -73,7 +73,7 @@ plot(
     ylab = "median value (medv)",
     xlab = "age (age)"
 )
-abline(age_model, col = "red")
+abline(model, col = "red")
 ```
 
 As we can see in the model, the regression line is described as a linear model as we used `medv ~ age` in the linear model fitting.
@@ -86,18 +86,21 @@ predictors. Taking in account that in the _PW2_ document we used a similar model
 modification as that model, and use `log(lstat)` instead of using it directly.
 
 ```{r 2-predictors-model}
-lstat_age_model <- lm(medv ~ log(lstat) + age, data = boston_train)
-summary(lstat_age_model)
+model0 <- lm(medv ~ log(lstat) + age, data = boston_train)
+summary(model0)
 ```
 
-In this case, we can see that the obtained model is a non-linear model, described by the equation $Y = b_1log(x_1) + b_2x_2 + c$. As we
-can see, the model uses now two factor parameters $b_1$ and $b_2$ for the predictors. The summary of the model shows levels of
+In this case, we can see that the obtained model is a non-linear model, described by the following equation. 
+$$
+    Y = \beta_0 + \beta_1log(x_1) + \beta_2x_2
+$$
+As we can see, the model uses now two factor parameters $b_1$ and $b_2$ for the predictors. The summary of the model shows levels of
 significance for $P_{log(lstat)} < 2*10^{-16}$ and $P_{age} = 8.85*10^{-12}$, which means a very high level of significance for each of
 the predictor parameters. The levels of significance show that the variable `log(lstat)` is more significant to the model than the
 `age` variable, although the `age` is highly significant to this model.
 
 The summary of this model shows as a _F-statistic_ score of 400.1 using the Fisher method with 397 degrees of freedom. This score leads
-us to obtain a general $P$ value of $P < 2*10^{-16}$, which means that we are confident _(more than 99.99%)_ that the model correctly
+us to obtain a general P-value $P < 2*10^{-16}$, which means that we are confident _(more than 99.99%)_ that the model correctly
 describes the behaviour of the data we are presenting. To summarize, we can say that **this model is highly significant as a whole**.
 
 # Training a model using all of the variables in the dataset
@@ -106,8 +109,8 @@ In this section we will train a new model using all of the available variables i
 function in order to see how the variables interact with each other. 
 
 ```{r model-with-all}
-model_all <- lm(medv ~ ., data = boston_train)
-summary(model_all)
+model1 <- lm(medv ~ ., data = boston_train)
+summary(model1)
 ```
 
 As we see above, this new model implements all of the data in our dataset, and it also is described by a linear equation containing each
@@ -116,9 +119,142 @@ essentially undid the transformation applied to the variable `lsat`. We will tra
 in account.
 
 ```{r model-all-log-lstat}
-model_all_log <- lm(
-    medv ~ log(lstat) + crim + zn + indus + chas + nox + rm + age + dis + rad + tax + ptratio + black, # nolint
+model2 <- lm(
+    medv ~ log(lstat) + crim + zn + indus + chas + nox +
+        rm + age + dis + rad + tax + ptratio + black,
     data = boston_train
 )
-summary(model_all_log)
+summary(model2)
+```
+
+As we can see in both of the summaries of each model containing the complete dataset, the _R-square_ score shows a high approximation of each
+model to the behaviour of the given data. In this case, the model containing the logarithmic approach to the `lstat` variable shows a
+higher _R-square_ score, being $R^2_M = 0.785, R^2_A = 0.777$. In the other hand, the model containing the direct variables shows a lower _R-square_
+score, being $R^2_M = 0.734, R^2_A = 0.725$. This shows that the model containing the logarithmic transformation describes better the
+behaviour of the `medv` variable in the given dataset.
+
+# Check correlation matrix in the dataset
+
+In this section we will check the correlation matrix of the `boston_train` dataset in order to see if any of the behaviour of the variables
+can be described as dependent of another variable. The following code will generate the correlation matrix of the training set and round its
+values to two digits. Afterwards, it will show the correlation matrix in order to easily visualize the correlation between each variable in
+the dataset.
+
+```{r correlations}
+boston_correlation <- round(cor(boston_train), 2)
+corrplot::corrplot.mixed(
+    boston_correlation,
+    order = "AOE",
+    number.cex = 0.7,
+    tl.cex = 0.7
+)
+```
+
+As we can observe in the correlation matrix, the maximum correlation in the dataset corresponds to the variables `tax` and `rad` (0.87),
+which means that we can say that they are linearly dependent on each other, and at least one of them does not contribute to the model in a
+significant way.
+
+# Train a new model without _tax_
+
+Now we will train a new model without the `tax` variable, in order to decrease the correlation issues in the predictors.
+
+```{r no-tax-model}
+model3 <- lm(
+    medv ~ log(lstat) + crim + zn + indus + chas +
+        nox + rm + age + dis + rad + ptratio + black,
+    data = boston_train
+)
+summary(model3)
+```
+
+Given the new trained model, we can observe that the _R-square_ results in the model have been lowered due to the elimination of one of
+the predictors in the model, which can lower a bit the approximation of the model. But, in the other hand, the F-statistic score has increased
+compared to the last model trained. This means that the P-value has decreased even more, and this model is more significant than the others
+thanks to the elimination of the ``tax`` from the model.
+
+## Mean Square Error
+
+A we have observed, the ``model3`` is the best model by far in this exercise, and that it does not need all of the predictors in order to work.
+We will now calculate the _Mean Square Error_ of the model with the given training set.
+
+```{r model3-mse}
+mean((summary(model3))$residuals^2)
+```
+
+# ANOVA
+
+In this section we will perform an **Analysis Of Variance** _(ANOVA)_ around the categorical variable `chas` in the dataset. In this dataset, `chas`
+refers to a neighbourhood close to the _Charles River (1 for 'yes', 0 for 'no')_. We will check if there is a difference between the mean of the
+`medv` values in the neighbourhoods that are close to this river and those that are not, following the next assumtion.
+
+$$
+    H_0 \; : \; \mu_1 = \mu_0 \\
+    H_1 \; : \; \mu_1 \neq \mu_0
+$$
+
+For this, we will first visualize how is the `chas` variable is present throughout the dataset.
+
+```{r chas-str}
+str(boston_train$chas)
+```
+
+For now, we have confirmed that the `chas` variable effectively contains values as 0 and 1 as stated earlier. Now, we will count how many of the
+observations present in the dataset are near the river.
+
+```{r chas-separate-boxplot}
+btr_chas <- boston_train[boston_train$chas == 1, ]
+btr_nochas <- boston_train[boston_train$chas == 0, ]
+
+boxplot(
+    btr_chas$medv,
+    main = "Median value of Suburbs near the river"
+)
+
+boxplot(
+    btr_nochas$medv,
+    main = "Median value of the Suburbs far from the river"
+)
+```
+
+As we can see, the median values of the suburbs far from the river tend to mantain their bounds between 10 and 45 with some suburbs being outliers, while
+the values of the suburbs bounding the river tend to disipate more.
+
+```{r aggregates}
+aggregate(medv ~ chas, data = boston_train, mean)
+bchas_aov <- aov(medv ~ chas, data = boston_train)
+print(bchas_aov)
+summary(bchas_aov)
+```
+
+Based on the aggregates grouped by the `chas` predictor, we can observe the mean values of the `medv` variable of each group. Based on this case, the mean
+median value of the suburbs near the river is indeed different one from the other. Taking into account the ANOVA, we can say very confidently that the mean
+values are significantly different from one another, and we can conclude that the `chas` predictor is indeed a significant predictor in the model.
+
+# Qualitative predictors
+
+In this section we will fit another model based on the categorical predictors of the dataset, being the `chas` and the `crim`, meaning if the suburbs are
+bounding the _Charles River_ and the _crime rate_ in the neighbourhood respectively.
+
+```{r model-qualitative}
+model4 <- lm(medv ~ chas + crim, data = boston_train)
+summary(model4)
+```
+
+Based on the new model, we can asume that both predictors are significant for the model, and that specifically the `chas` predictor is still significant to
+the model.
+
+# Interaction terms
+
+In this section we will make use of different operators in linear models, specifically the `*` operator, which denotes a first degree interaction between two
+descriptors. As an example, we will see the next models. By using the `^` operator, we are telling the model to cross interact each variable by the desired
+order.
+
+```{r lstat-age-interaction}
+model5 <- lm(medv ~ lstat * age, data = boston_train)
+summary(model5)
+```
+
+```{r interaction-all}
+model6 <- lm(medv ~ (.)^2, data = boston_train)
+summary(model6)
 ```

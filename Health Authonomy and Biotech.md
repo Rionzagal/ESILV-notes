@@ -57,6 +57,22 @@
     - [Concurrency: induced demand](#concurrency-induced-demand)
     - [Private health insurance](#private-health-insurance)
     - [Monopole and regulation](#monopole-and-regulation)
+- [Lecture 4 Analyze and evaluate health policies](#lecture-4-analyze-and-evaluate-health-policies)
+  - [Fundamental principles of economics evaluation](#fundamental-principles-of-economics-evaluation)
+    - [Methods and tools](#methods-and-tools)
+    - [Cost-utility analysis (_CUA_)](#cost-utility-analysis-cua)
+      - [Textbook example](#textbook-example)
+    - [Cost-effectiveness analysis](#cost-effectiveness-analysis)
+    - [Cost evaluation](#cost-evaluation)
+    - [Interpretation for decision support and limits](#interpretation-for-decision-support-and-limits)
+  - [International comparisons: The USA](#international-comparisons-the-usa)
+    - [Foreword](#foreword)
+    - [Social Security Act](#social-security-act)
+    - [Health system organization](#health-system-organization)
+    - [Medicaid and Medicare](#medicaid-and-medicare)
+      - [Funding sources](#funding-sources)
+    - [State of the healthcare system: indicators](#state-of-the-healthcare-system-indicators)
+      - [State of the healthcare system: WHO performacnces](#state-of-the-healthcare-system-who-performacnces)
 
 # Introduction
 
@@ -520,3 +536,194 @@ In order to help achieve the goal, there is:
 - State intervention
 - Regulation in health private insurances and their coverage.
 - Public monopole: Even thoug the health system is not reinbursing everything, the public health system is the one that dominates the health market.
+
+# Lecture 4 Analyze and evaluate health policies
+
+## Fundamental principles of economics evaluation
+
+### Methods and tools
+
+Goal: Improvement of the health system quality with the strong constraints of spendings (public spendings or other).
+
+[HAUTE AUTORITÉ DE SANTÉ](#has-high-health-authority) Is the organism that controls and supervises the quality of the health system. 
+
+HAS: created by a law, relatively to the health system (2004)
+
+Its goals are to **reinforce healthcare quality** for patients benefits and mantain a **united and equitable** health system. 
+
+HAS has two mandates, which define their mission and objective:
+- Continuous improvement of health professionals' practices.
+- Help provided to public decision takers (**optimizing management** of reimbursable goods/service)
+
+HAS is independant from the healthcare ministries.
+
+New mission of economics **evaluation**, based on the _Law for financing the public health system (2008)_.
+
+> As part of its missions, HAS issues recommendations and medico-economic opinions on the most efficient care, prescription or treatment strategies.
+
+HAS original methodological guide was published in 2011, and last update in July 2020 in the _Guide Methodologique, choix méthodologiques pour l'évaluation économique à la HAS_. It contains the followed methods used by the HAS in order to issue their recommendations in terms of healthcare quality evaluation.
+
+For medico-economic recommendations:
+- Health economics evaluation
+  - cost-utility analysis (quality-adjusted life-years)
+  - cost-effectiveness analysis
+- Costs evaluation
+### Cost-utility analysis (_CUA_)
+
+They are used for compare two strategies/programs/initiatives based on their:
+- Costs: How much is spent on the procedure/initiative
+- Results: The life-year earned and quality of life _(Quality-Adjusted Life-Years => QALY)_
+  > But how do we calculate the QALY to get the results?
+
+The evaluation criteria can be described as:
+$$
+  X = cost/QALY
+$$
+
+The QALY is then a result **indicator** (as a health economy term)
+
+It is evaluated as: Life-Year Quality Factor.
+> It is evaluates from 0 to 1, in which 0 means _death_, and 1 means _the best life quality possible_.
+
+The Quality of life is evaluated through questionaries, using questions about the patient's life quality. They are standarized and applied by the healthcare institution before and after the procedure in order to compare the results. 
+> Other versions of these questionnaires are available, either to evaluate children, morbid population, and other special cases.
+
+Some examples (recomended by the HAS):
+- Euroqol EQ-5D/SF-6D
+- HUI3
+
+What does the _D_ means in Euroqol?
+> It stands for _Dimension_, meaning the aspect in the patient's form of life
+
+Some Dimensions:
+- Mobility
+- autonomy
+- daily living
+- pain
+- anxiety
+> Hundreds of possible health states are described through these questionaires.
+
+#### Textbook example
+
+![An image](#)
+
+This is a visual representation of comparing 2 medical initiatives.
+
+Use and impact of the QALY:
+- Death occurence
+- Health state
+
+### Cost-effectiveness analysis
+
+The comparison of two alternative health programs/strategies based on their **costs** and their **effectiveness**.
+
+An effective strategy allows to achieve results corresponding to objectives set a priory (not a constraint of time).
+
+> _For example:_ A new drug, new medical device, new health management program vs a previous one. <br>
+> In this case _"doing nothing"_ is also an option.
+
+In order to use this method, the 2 programs/strategies:
+- are used for the same indication
+- can be evaluated by a common effectiveness criterion
+  - > HAS recommends _"Life-year gained"_
+
+The result is described byan incremental cost-effectivenes ratio (ICER):
+
+$$
+  ICER = \delta cost / \delta effectiveness
+$$
+
+for both strategies 
+### Cost evaluation
+
+The **Cost evaluation** is a Comparative analysis between 2 or more program/strategies, and is used to associate a **monetary value to goods and services** consumed to set up a health program/strategy.
+
+The **Cost evaluation** sees as _goods and services_:
+- Hospital and outpatient care
+- Healthcare to the elderly and handicaped population
+- Medical goods (drugs, medical devices, etc...)
+- Medical transportation
+- Organization of health programs
+- Time spent: Beneficiaries and medical professionals
+
+### Interpretation for decision support and limits
+
+- Cost-utility analysis result: costs/QALY ratio. 
+
+Meaning: additional costs for earned QALY
+
+Unknown: willingness to pay... At some point, we have to evaluate the willingness to pay of the government in order to see if they will actually agree to use the _"best"_ method in a given country. For this, there is a need for projections in order to evaluate this parameter and what is the maximum acceptable cost for a given time of _perfect health_.
+
+- Cost-Effectiveness analysis:
+This is a direct interpretation of the **clienical and economical** interest of a new strategy _(cost of a gained lif-year)_.
+
+A single effectiveness criterion evaluated at a time/analysis. 
+No evaluation of the strategy's **impact on quality of life**. 
+
+> in general CUA and CEA must be used as a combination, not any one by itself.
+
+- Cost evaluation:
+This is a simple, comparative analysis between past and future programs/medical initiatives. It uses the cost estimation of every included goods or services.
+
+Considerations to take into account:
+- Costs actualization: reducing a future cost to its present value
+- Costs adjustment for inflation. 
+
+## International comparisons: The USA
+
+### Foreword
+
+No state policies for individual social protection before 1933 in the USA.
+
+The private actors have central roles in the medical system.
+
+This is an accidental system, which means that it is not thought beforehand.
+
+### Social Security Act
+
+- 1st approved law on social security in Agust 14, 1935.
+- Social protection including:
+  - Retirement
+  - unemployment
+  - Benefits for the disables
+  - Support for widows and orphans
+- There is no health invalidity conscerns for the next 30 years.
+
+### Health system organization
+
+In Europe there is 2 models:
+
+- **Beveridge** model: Coverage of the health system expenditure is completely financed by the tax payment (originated in England).
+- **Bismark** model: Coverage of the health system expenditure is financed based on social cotisation (used in France, Germany, Belgium, Luxemburg, Austria).
+
+In USA, the public authority (state, federal state) interevenes/chooses which populations to support in terms of health coverage.
+> The State excludes populations with too high/low incomes or that are too young to be eligible to health programs. 
+### Medicaid and Medicare
+
+- **Medicare**:
+Is a program managed by the **Federal government**. It covers citizens older than 65 years of age and/or disabled
+- **Medicaid**:
+This is a social welfare, managed by the specific states _(50 different programs)_ and covers the **poor** population.
+> Economic criteria: low incoms, elderly, disabled, children
+
+>For a single person , different health managements apply from one state to the other.
+
+#### Funding sources
+
+Federal Hospital Insurance Trust Funds, 1965.
+
+- Medicare funding: Collected by the Federal state in the form of _taxes_. It is paid _Premium_ by the insured user.
+- Medicaid funding: Is funded 57% by the Federal state, and completed by the specific state.
+
+### State of the healthcare system: indicators
+
+Health expenditure, % Gross domestic product (PIB)
+![Table 1](#)
+
+Health expenses per inhabitant:
+  - Health care
+  - Health system administrative costs
+
+#### State of the healthcare system: WHO performacnces
+
+WHO annual World Health Statistics reports, 

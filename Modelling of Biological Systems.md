@@ -1,5 +1,6 @@
 # Modelling of Biological Systems
 
+- [Modelling of Biological Systems](#modelling-of-biological-systems)
 - [INTRODUCTION](#introduction)
   - [Syllabus](#syllabus)
   - [Introduction to modeling](#introduction-to-modeling)
@@ -20,6 +21,8 @@
     - [Exponential population growth](#exponential-population-growth)
     - [Logistic population growth](#logistic-population-growth)
     - [Natural selection in a clonal population](#natural-selection-in-a-clonal-population)
+- [Continuous-time models](#continuous-time-models)
+  - [Continuous-time models in multiple variables](#continuous-time-models-in-multiple-variables)
 # INTRODUCTION
 ## Syllabus
 - Introduction to Modeling (mathematical approach)
@@ -33,6 +36,18 @@
   - Monte Carlo Methods
   - Markov chains
 - Application to cancer modeling (active matter approach)
+
+> **Gradings**:
+> - Writing part:
+>   1. The presentation of the problem
+>   2. The understanding of the literature and the work in the field of study concened _(ir is rare or not?)_
+>   3. The ability to sintesize it
+>   4. Relevance of the article in adition to the chosen theme
+>   5. Conclusion
+>   6. Structure
+>   7. Compliance with the guidelines in publication sources and style
+>   8. Quality of english writing
+>   9. Presentation and general aesthetics
 
 ## Introduction to modeling
 A **Model** is a description of a _system_. 
@@ -178,3 +193,91 @@ $$
     n_B^0 = (1 + s)kb(t)
   \end{cases}
 $$
+$$
+  \begin{cases}
+    n_A(t+1) = \frac{N}{n_A^0(t) + n_B^0(t)}kn_A^0(t)
+    \\
+    n_B(t+1) = \frac{N}{n_A^0(t) + n_B^0(t)}(1+s)n_B^0(t)
+  \end{cases}
+$$
+$$
+  \begin{cases}
+    n_A(t+1) = \frac{N}{n_A^0(t) + (1+s)n_B(t)}
+    \\
+    n_B(t+1) = \frac{(1+s)n_B(t)N}{n_A(t) + (1+s)n_B(t)}
+  \end{cases}
+$$
+
+If we introduce a new variable $p(t) = \frac{n_B(t)}{N}$ ...
+
+We will have:
+
+$$
+  n_B(t+1) = \frac{(1+s)n_B(t)N}{n_A(t) + (1+s)n_B(t)}
+$$
+
+And...
+
+$$
+  p(t+1) = \frac{n_B(t+1)}{N}
+$$
+
+$$
+  p(t+1) = \frac{(1+s)n_B(t)}{n_A(t) + (1+s)n_B(t)}
+$$
+
+If we consider the total population is $n_A(t) + n_B(t) = N$, we can consider:
+
+$$
+  p(t+1) = \frac{(1+s)n_B(t)}{N + sn_B(t)}
+$$
+
+$$
+  p(t+1) = \frac{(1+s)Np(t)}{N + sNp(t)}
+$$
+
+$$
+  p(t+1) = \frac{(1+s)p(t)}{1+sp(t)}
+$$
+
+# Continuous-time models
+
+The first discrete-time model for population growth was one where we asumed that for each time step, every individual produces a certain, fixed unmber of offspring. Let's try to reproduce the model with continuous time using an ODE.
+
+Individuals in the population reproduce continuously throughout the year following the next equation.
+
+$$
+  N'(t) = rN(t)
+$$
+
+We can also derive this differential equation more formally by starting from its discrete model.
+
+$$
+  N_{t+1} = aN_{t}
+$$
+
+If we transform $\delta N = N_{t + 1} - N_t$, we have the next solution.
+
+$$
+  N(t + \delta t) - N(t) = (a - 1)\delta tN(t) \\
+  \therefore \\
+  \frac{N(t + \delta t) - N(t)}{\delta t} = (a - 1)N(t)
+$$
+
+If we approximate $\delta t \to 0$, we have:
+
+$$
+  \lim_{\delta t \to 0} \frac{N(t + \delta t) - N(t)}{\delta t} = rN(t)
+  \\ r := a - 1
+$$
+
+$$
+  \therefore N'(t) = rN(t)
+$$
+
+Where $r$ represents the growth rate of the population.
+
+In order to find an equilibrium, we have to find the conditions so that $N'(t) = 0$.
+
+## Continuous-time models in multiple variables
+

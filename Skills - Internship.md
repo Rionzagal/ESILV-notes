@@ -49,3 +49,4 @@ This method is used to talk about an experience.
 - [ ] Course analysis table (in DVO)
 - [ ] Update LinkedIn profile (experiences with [STAR](#the-star-method) method.)
 - [ ] Search for Alumni whose job and/or company interests me
+

@@ -73,6 +73,13 @@
       - [Funding sources](#funding-sources)
     - [State of the healthcare system: indicators](#state-of-the-healthcare-system-indicators)
       - [State of the healthcare system: WHO performacnces](#state-of-the-healthcare-system-who-performacnces)
+- [Lecture 5: Regulation of Health Expenditure](#lecture-5-regulation-of-health-expenditure)
+  - [Health accounts equilibrium](#health-accounts-equilibrium)
+    - [Helth accounts equilibrium ~ 1950](#helth-accounts-equilibrium--1950)
+    - [1960 - 1970](#1960---1970)
+    - [1974 - Social protection generalisation](#1974---social-protection-generalisation)
+    - [Evolution of health expenditure in France](#evolution-of-health-expenditure-in-france)
+      - [Consommation des soins et biens médicaux _(CSBM)_](#consommation-des-soins-et-biens-médicaux-csbm)
 
 # Introduction
 
@@ -726,4 +733,80 @@ Health expenses per inhabitant:
 
 #### State of the healthcare system: WHO performacnces
 
-WHO annual World Health Statistics reports, 
+WHO annual World Health Statistics reports,
+
+# Lecture 5: Regulation of Health Expenditure
+
+## Health accounts equilibrium
+
+### Helth accounts equilibrium ~ 1950
+
+Public authorities preoccupied by health spendings:
+- Not to reduce them
+- Insure legitimate expenditures to cover the needs of the population
+
+### 1960 - 1970
+
+- 1960: 
+  - Creation of a Medical Economy
+  - Creation of a Universal health insurance (Assurance maladie)
+- 1970:
+  - Rationalisation of budgetary choices
+
+### 1974 - Social protection generalisation
+
+Creation of Social protection generalisation, presented in September 1974
+
+- Coverage to the population that was not covered by the _Assurance Maladie_
+- Presented by Michel Durafour, **Minister of work and social security**
+- Finally adopted on December 24, 1974
+  - Evey part of the nation should be covered by this health proposition.
+  - Every form of expenditure should be recorded and declared
+
+### Evolution of health expenditure in France
+
+Expenditure tabs kept in check using **Costs evaluation** method in order to know the monetary value spent in all healthcare aspects of the medical system.
+
+Evaluation included: **Consommation des soins et biens médicaux _(CSBM)_**
+- Hospital and outpatient care
+- Healthcare to the elderly and handicaped population
+- Medical goods
+- Medical transportation
+- Organization of health programs
+- Time spent: _by beneficiaries and medical professionals_
+
+#### Consommation des soins et biens médicaux _(CSBM)_
+
+Institution preocupied for the evolution of the health expenditure in France and healthcare methods and processes.
+
+It tracks the costs evaluation of the French healthcare culture and compares them against past years.
+
+## Financing CSBM
+
+### 3 actors
+
+- Health system (_Sécurité sociale / Workers contributions_): 79.8% in 2021
+- Organizmes complémentaires: 12.9% in 2021
+  - Mutual funds
+  - Private health insurances
+- State: 0.4% in 2021
+- Reste à charge (RAC) des ménages
+  - RAC = CSBM - HS - OC - S
+
+## How to get back to equilibrium?
+
+### Lois du financement de la Sécurité Sociale (LFSS)
+
+Initiative preformed in 1996. It is here to set the general conditions of what the health system is planning to spend and contribute. 
+
+It is voted each year by the parliament.
+
+Goal: To reach the national objective of social seciurity expenses
+
+### Revenue lever
+
+- Taxation (fiscalisation)
+  - increase social cotisation
+  - taxes (e.g. on indemnités journalières - daily allowance - for sick leave or accident at work)
+- Increase use participation
+  - Forfait hospitalier (hospital package): the biggest part of the cost still covered by the health system, but a portion the rest by the user

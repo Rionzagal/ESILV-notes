@@ -42,4 +42,7 @@ po/*~
 rsconnect/
 
 # VS Code settings and directories
-.vscode/ 
+.vscode/
+
+# Docs and presentations override
+!DOCS/**

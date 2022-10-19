@@ -27,4 +27,3 @@ View(scaled_test_set)
 
 age_model <- glm(Purchased ~ Age, data = scaled_train_set, family = "binomial")
 summary(age_model)
-

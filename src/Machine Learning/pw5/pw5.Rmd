@@ -1,0 +1,245 @@
+---
+title: "Machine Learning - PW5"
+author: "Mario GONZÁLEZ GALINDO"
+date: "28/11/2022"
+output:
+    html_document:
+        toc: yes
+---
+
+In this practical work we will train and evaluate regression models using
+decision trees.
+
+# Load the dataset and shuffle it into training and test sets
+Here we will load the **Boston** dataset from the _Mass_ library, which
+will then be shuffled and splitted in half in order to form the training and
+test sets that will be used for the rest of the project.
+```{r}
+library(MASS)
+data(Boston)
+
+boston_shuffled <- Boston[sample(1 : nrow(Boston)), ]
+boston_test <- boston_shuffled[1 : (nrow(Boston) / 2), ]
+boston_train <- boston_shuffled[(1 + nrow(Boston) / 2) : nrow(Boston), ]
+```
+
+# Fit different regression models and compare their performance
+In this section we will train different regression models into the training set
+and compare their performance with each other.
+
+The models that will be evaluated for this data stand as following:
+
+- [Regression tree](#regression-tree)
+- [Linear Regression model](#linear-model)
+- [Bagged tree](#bagged-tree)
+- [Random Forest](#random-forest)
+- [Gradient Boosting Model](#gradient-boosting-model)
+
+## Before continuing...
+In order to evaluate the models we will create two objects that we will use as
+tools for the comparisoon of the models.
+1. A function that evaluates the **RMSE** _(Root Mean Squared Error)_.
+2. A data frame to store the prediction values of each model as well as the actual values.
+
+```{r}
+rmse <- function(vec_1, vec_2) sqrt(mean((vec_1 - vec_2)^2))
+boston_results <- data.frame(real_value = boston_test$medv)
+```
+
+## Regression tree
+In this section we will fit a regression tree model, which will be used to
+predict the _medv_ variable from the dataset. In order to fit and train the
+regression tree, we will use the _rpart_ package. Then we will make the
+predictions for the test set using the model and visualize the _RMSE_.
+```{r boston_tree, fig.show="hold", fig.width=4}
+# Fit a regression tree to estimate the variable medv using the train dataset.
+boston_tree <- rpart::rpart(medv ~ ., boston_train)
+summary(boston_tree)
+# Make predictions using the regression tree in the test dataset.
+boston_results$tree <- predict(
+    object = boston_tree,
+    newdata = boston_test
+)
+rmse(boston_results$real_value, boston_results$tree)
+plot(
+    tree ~ real_value,
+    data = boston_results,
+    main = "Regression tree Predictions vs Real values",
+    xlab = "Real values",
+    ylab = "Predictions"
+)
+```
+
+### Visualize the model
+We can observe the complexity of the tree and the nodes needed to categorize and produce the prediction.
+```{r}
+plot(boston_tree)
+rpart.plot::rpart.plot(boston_tree)
+rpart::printcp(boston_tree)
+rpart::plotcp(boston_tree)
+```
+
+## Linear model
+Now we will fit a linear model as we know it and compare the results against
+the regression tree.
+```{r}
+# Fit a linear model to compare its results against the regression tree.
+boston_linear <- lm(medv ~ ., boston_train)
+boston_results$linear <- predict(
+    object = boston_linear,
+    newdata = boston_test
+)
+rmse(boston_results$real_value, boston_results$linear)
+plot(
+    linear ~ real_value,
+    data = boston_results,
+    main = "Linear regression Predictions vs Real values",
+    xlab = "Real values",
+    ylab = "Predictions"
+)
+```
+
+## Bagged tree
+Now we will fit a Bagged tree using the _ipred_ package and evaluate its performance.
+```{r}
+#Fit a Bagged tree and compare its predictions against the others.
+boston_bag <- ipred::bagging(medv ~ ., data = boston_train)
+boston_results$bagging <- predict(
+    object = boston_bag,
+    newdata = boston_test
+)
+rmse(boston_results$real_value, boston_results$bagging)
+plot(
+    bagging ~ real_value,
+    data = boston_results,
+    main = "Bagging Predictions vs Real values",
+    xlab = "Real values",
+    ylab = "Predictions"
+)
+```
+
+## Random Forest
+Now we will fit a Random forest and evaluate its performance
+```{r}
+# Fit a Random Forest and compare its predictions against the other models.
+boston_forest <- randomForest::randomForest(medv ~ ., data = boston_train)
+boston_results$forest <- predict(
+    object = boston_forest,
+    newdata = boston_test
+)
+rmse(boston_results$real_value, boston_results$forest)
+plot(
+    forest ~ real_value,
+    data = boston_results,
+    main = "Random Forest Predictions vs Real values",
+    xlab = "Real values",
+    ylab = "Predictions"
+)
+```
+
+### Predictors evaluation
+Here we will obtain the importance of each predictor variable passed into the
+Random Forest and order the predictors in order to retrieve the most important ones
+used for the model.
+```{r}
+# Retrieve the Random Forest predictors and store them in a data frame
+forest_predictors <- data.frame(
+    randomForest::importance(boston_forest)
+)
+# Show the three most important predictors of the forest.
+forest_predictors <- forest_predictors[
+    order(-forest_predictors$IncNodePurity),
+    , drop = FALSE
+]
+print(forest_predictors[1:3, , drop = FALSE])
+randomForest::varImpPlot(boston_forest)
+```
+
+## Gradient Boosting Model
+Now we will fit a Gradient Boosting Model and evaluate its performance.
+```{r}
+# Fit a Gradient Boosting model to the dataset and compare it
+# against the other models.
+boston_gbm <- gbm::gbm(medv ~ ., data = boston_train)
+boston_results$gbm <- predict(boston_gbm, boston_test)
+summary(boston_gbm)
+rmse(boston_results$real_value, boston_results$gbm)
+plot(
+    gbm ~ real_value,
+    data = boston_results,
+    main = "Regression tree Predictions vs Real values",
+    xlab = "Real values",
+    ylab = "Predictions"
+)
+```
+
+## Compare the performance of the models
+```{r}
+# Compare the RMSE of all the models fitted into the dataset.
+boston_rmse <- c(
+    "regression tree" = rmse(
+        boston_results$real_value,
+        boston_results$tree
+    ),
+    "linear model" = rmse(
+        boston_results$real_value,
+        boston_results$linear
+    ),
+    "bagging model" = rmse(
+        boston_results$real_value,
+        boston_results$bagging
+    ),
+    "random forest" = rmse(
+        boston_results$real_value,
+        boston_results$forest
+    ),
+    "gbm" = rmse(
+        boston_results$real_value,
+        boston_results$gbm
+    )
+)
+barplot(
+    boston_rmse,
+    main = "RMSE values for the regression models",
+    las = 2,
+    cex.names = 0.7
+)
+```
+
+```{r predictioin-plots, fig.width=4, fig.show="hold"}
+plot(
+    tree ~ real_value,
+    data = boston_results,
+    main = "Regression Tree model",
+    xlab = "Real value",
+    ylab = "Predictions"
+)
+plot(
+    linear ~ real_value,
+    data = boston_results,
+    main = "Linear model",
+    xlab = "Real value",
+    ylab = "Predictions"
+)
+plot(
+    bagging ~ real_value,
+    data = boston_results,
+    main = "Bagging model",
+    xlab = "Real value",
+    ylab = "Predictions"
+)
+plot(
+    forest ~ real_value,
+    data = boston_results,
+    main = "Random Forest model",
+    xlab = "Real value",
+    ylab = "Predictions"
+)
+plot(
+    gbm ~ real_value,
+    data = boston_results,
+    main = "GBM model",
+    xlab = "Real value",
+    ylab = "Predictions"
+)
+```

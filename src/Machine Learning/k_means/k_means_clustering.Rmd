@@ -1,0 +1,24 @@
+---
+title: "K-means Clustering"
+author: "Mario GONZÁLEZ & Lale ASALIOGLU"
+date: "30/11/2022"
+output: powerpoint_presentation
+---
+
+# What is Clustering?
+Clustering refers to the process of generating labeled groups of data based on how **similar** they are.
+_Clustering_ is **similar** to _Classification_, but not quite the same...
+
+## Characteristics
+
+- Clustering is a method of **UNSUPERVISED LEARNING**
+  - So, it has no _target_ or _ground truth_ to estimate.
+- Does not have a specific label order
+- Can group the data through different methods:
+  - K-means
+  - K-nearest neighbors
+  - Hierarchical
+
+![Classification vs Clustering](images/classification_clustering.png)
+
+# Hello World!

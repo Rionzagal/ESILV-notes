@@ -17,8 +17,8 @@ _Clustering_ is **similar** to _Classification_, but not quite the same...
 - Can group the data through different methods:
   - K-means
   - K-nearest neighbors
-  - Hierarchical
+  - Hierarchical clustering
 
 ![Classification vs Clustering](images/classification_clustering.png)
 
-# Hello World!
+# Hello World

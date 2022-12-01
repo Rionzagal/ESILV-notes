@@ -129,10 +129,46 @@ spam_ftest_scaled <- data.frame(
     type = spam_test$type
 )
 
+
 spam_glm_tuned <- caret::train(
     form = type ~ .,
     data = spam_ftrain_scaled,
     trControl = caret::trainControl(method = "cv", number = 5),
     method = "glm",
     family = "binomial"
+)
+
+spam_rf_tuned <- caret::train(
+    form = type ~ .,
+    data = spam_ftrain_scaled,
+    trControl = caret::trainControl(method = "oob"),
+    method = "rf"
+)
+
+spam_bag_tuned <- caret::train(
+    form = type ~ .,
+    data = spam_ftrain_scaled,
+    trControl = caret::trainControl(method = "cv", number = 5),
+    method = "treebag",
+    bagControl = caret::bagControl(
+        fit = spam_ftrain_scaled[1:57, ],
+        predict = spam_ftrain_scaled$type,
+        oob = TRUE
+    )
+)
+
+spam_gbm_tuned <- caret::train(
+    form = type ~ .,
+    data = spam_ftrain_scaled,
+    trControl = caret::trainControl(method = "cv", number = 5),
+    method = "gbm"
+)
+
+ifelse(
+    predict(
+        spam_glm_tuned,
+        spam_ftest_scaled
+    ) == "spam",
+    1,
+    0
 )

@@ -1,0 +1,396 @@
+---
+title: "PW6"
+author: Mario GONZÁLEZ
+date: "30/11/2022"
+output:
+    html_document:
+        toc: yes
+---
+
+# Load the dataset
+In this section we will load the _Spam_ dataset from the _kernlab_ package and analyze it.
+
+```{r}
+# Import the SPAM dataset and explore it.
+library(kernlab)
+data(spam)
+summary(spam)
+head(spam)
+```
+
+Afterwards we will split it into the training and test sets using a randomized seed to mantain
+the random values.
+
+```{r}
+# Split the dataset into training and test sets using a random seed.
+set.seed(13)
+spam_samples <- caret::createDataPartition(
+    spam$type,
+    p = 0.7,
+    list = FALSE
+)
+spam_train <- spam[spam_samples, ]
+spam_train_scaled <- data.frame(
+    scale(spam_train[, 1:57]),
+    type = ifelse(spam_train$type == "spam", 1, 0)
+)
+spam_test <- spam[-spam_samples, ]
+spam_test_scaled <- data.frame(
+    scale(spam_test[, 1:57]),
+    type = ifelse(spam_test$type == "spam", 1, 0)
+)
+```
+
+# Train the models for classification
+
+Now that the data is split and scaled, we can start training the models in order to compare their
+performance.
+
+## But before...
+
+Before start training the models we will first proceed to create the results storage and create
+a function to measure the categorical accuracy between the model predictions and the ground truth.
+
+```{r}
+# Create a function to return the binomial accuracy from two vectors.
+binomial_accuracy <- function(real, prediction) {
+    conf <- table(real, prediction)
+    return(
+        (conf[1, 1] + conf[2, 2]) /
+        (conf[1, 1] + conf[1, 2] + conf[2, 1] + conf[2, 2])
+    )
+}
+# Create the results dataframe.
+spam_results <- data.frame(real_value = spam_test$type)
+```
+
+## Logistic regression
+
+Now we will start training the logistic regression model and compare its results.
+
+```{r}
+spam_log <- glm(
+    type ~ .,
+    data = spam_train_scaled,
+    family = "binomial"
+)
+summary(spam_log)
+spam_results$logistic <- ifelse(
+    test = predict(
+        object = spam_log,
+        newdata = spam_test_scaled,
+        type = "response"
+    ) >= 0.5,
+    yes = 1,
+    no = 0
+)
+binomial_accuracy(spam_results$real_value, spam_results$logistic)
+plot(
+    logistic ~ real_value,
+    data = spam_results,
+    main = "Logistic regression"
+)
+```
+
+## Classification Tree
+
+Now we will fit a classification tree using the training data and compare its results.
+
+```{r}
+# Fit a classification tree using the training set.
+spam_tree <- rpart::rpart(type ~ ., spam_train_scaled)
+summary(spam_tree)
+rpart.plot::rpart.plot(spam_tree)
+spam_results$tree <- ifelse(
+    test = predict(
+        object = spam_tree,
+        newdata = spam_test_scaled
+    ) >= 0.5,
+    yes = 1,
+    no = 0
+)
+binomial_accuracy(spam_results$real_value, spam_results$tree)
+plot(
+    tree ~ real_value,
+    data = spam_results,
+    main = "Classification tree"
+)
+```
+
+## Bagging tree
+
+Now we will fit a bagged tree and compare its results against the others.
+
+```{r}
+# Fit a Bagging model using the training set.
+spam_bag <- ipred::bagging(type ~ ., spam_train_scaled)
+summary(spam_bag)
+spam_results$bag <- ifelse(
+    test = predict(
+        object = spam_bag,
+        newdata = spam_test_scaled
+    ) >= 0.5,
+    yes = 1,
+    no = 0
+)
+binomial_accuracy(spam_results$real_value, spam_results$bag)
+plot(
+    bag ~ real_value,
+    data = spam_results,
+    main = "Bagged tree"
+)
+```
+
+## Random forest
+
+Now we fit a random forest model and evaluate its results with the training data.
+
+```{r}
+# Fit a random forest model using the training set.
+spam_forest <- randomForest::randomForest(type ~ ., spam_train_scaled)
+summary(spam_forest)
+spam_results$forest <- ifelse(
+    test = predict(
+        object = spam_forest,
+        newdata = spam_test_scaled
+    ) >= 0.5,
+    yes = 1,
+    no = 0
+)
+binomial_accuracy(spam_results$real_value, spam_results$forest)
+plot(
+    forest ~ real_value,
+    data = spam_results,
+    main = "Random forest"
+)
+```
+
+## Gradient Boosting
+
+Now we will train a Gradient Boosting Model for classification and evaluate its results
+using the training data.
+
+```{r}
+spam_gbm <- gbm::gbm(type ~ ., data = spam_train_scaled)
+summary(spam_gbm)
+spam_results$gbm <- ifelse(
+    test = predict(
+        object = spam_gbm,
+        newdata = spam_test_scaled
+    ) >= 0.5,
+    yes = 1,
+    no = 0
+)
+
+binomial_accuracy(spam_results$real_value, spam_results$gbm)
+plot(
+    gbm ~ real_value,
+    data = spam_results,
+    main = "Gradient Boosting Model"
+)
+```
+
+## Comparison of performances
+
+In order to compare the performances of the models, we will plot the difference of the binomial
+accuracy scores.
+
+```{r}
+spam_acc <- c(
+    "logistic model" = binomial_accuracy(
+        spam_results$real_value,
+        spam_results$logistic
+    ),
+    "classification tree" = binomial_accuracy(
+        spam_results$real_value,
+        spam_results$tree
+    ),
+    "bagging tree" = binomial_accuracy(
+        spam_results$real_value,
+        spam_results$bag
+    ),
+    "random forest" = binomial_accuracy(
+        spam_results$real_value,
+        spam_results$forest
+    ),
+    "gbm" = binomial_accuracy(
+        spam_results$real_value,
+        spam_results$gbm
+    )
+)
+
+barplot(
+    spam_acc,
+    main = "Binomial accuracy values for the classification models",
+    las = 2,
+    cex.names = 0.7
+)
+```
+
+# Train and tune the models
+
+In this section we will geenerate new training models and tune them using the _caret_ package
+functions in order to fine-tune their parameters.
+
+## But before...
+We will generate new datasets containing factorized categorical values in order to represent
+the target values.
+
+```{r}
+spam_ftrain_scaled <- data.frame(
+    scale(spam_train[, 1:57]),
+    type = spam_train$type
+)
+spam_ftest_scaled <- data.frame(
+    scale(spam_test[, 1:57]),
+    type = spam_test$type
+)
+```
+
+## Logistic regression
+
+Now we will train and fine-tune a logistic regression model using the _caret_ package for
+fine-tuning.
+
+```{r}
+spam_glm_tuned <- caret::train(
+    form = type ~ .,
+    data = spam_ftrain_scaled,
+    trControl = caret::trainControl(method = "cv", number = 5),
+    method = "glm",
+    family = "binomial"
+)
+spam_results$tuned_glm <- ifelse(
+    predict(
+        spam_glm_tuned,
+        spam_ftest_scaled
+    ) == "spam",
+    1,
+    0
+)
+
+binomial_accuracy(spam_results$real_value, spam_results$tuned_glm)
+plot(
+    tuned_glm ~ real_value,
+    data = spam_results,
+    main = "Tuned Logistic Regression"
+)
+```
+
+## Random Forest
+Now we will train and fine tune a Random Forest model using the training data.
+
+```{r}
+spam_rf_tuned <- caret::train(
+    form = type ~ .,
+    data = spam_ftrain_scaled,
+    trControl = caret::trainControl(method = "oob"),
+    method = "rf"
+)
+spam_results$tuned_rf <- ifelse(
+    predict(
+        spam_rf_tuned,
+        spam_ftest_scaled
+    ) == "spam",
+    1,
+    0
+)
+
+binomial_accuracy(spam_results$real_value, spam_results$tuned_rf)
+plot(
+    tuned_rf ~ real_value,
+    data = spam_results,
+    main = "Tuned Random Forest"
+)
+```
+
+## Bagged Tree
+Now we will train and fine-tune a Bagged Tree model using the training formatted data.
+
+```{r}
+spam_bag_tuned <- caret::train(
+    form = type ~ .,
+    data = spam_ftrain_scaled,
+    trControl = caret::trainControl(method = "cv", number = 5),
+    method = "treebag",
+    bagControl = caret::bagControl(
+        fit = spam_ftrain_scaled[1:57, ],
+        predict = spam_ftrain_scaled$type,
+        oob = TRUE
+    )
+)
+spam_results$tuned_bag <- ifelse(
+    predict(
+        spam_bag_tuned,
+        spam_ftest_scaled
+    ) == "spam",
+    1,
+    0
+)
+
+binomial_accuracy(spam_results$real_value, spam_results$tuned_bag)
+plot(
+    tuned_bag ~ real_value,
+    data = spam_results,
+    main = "Tuned Bagged Tree"
+)
+```
+
+## Gradient Boosting Model
+Now we will train and fine tune a Gradient Boosting Model and evaluate its results using
+the training data.
+
+```{r}
+spam_gbm_tuned <- caret::train(
+    form = type ~ .,
+    data = spam_ftrain_scaled,
+    trControl = caret::trainControl(method = "cv", number = 5),
+    method = "gbm"
+)
+spam_results$tuned_gbm <- ifelse(
+    predict(
+        spam_gbm_tuned,
+        spam_ftest_scaled
+    ) == "spam",
+    1,
+    0
+)
+
+binomial_accuracy(spam_results$real_value, spam_results$tuned_gbm)
+plot(
+    tuned_gbm ~ real_value,
+    data = spam_results,
+    main = "Tuned Gradient Boosting Model"
+)
+```
+
+## Compare the results
+Now we will compare the performance of each model using their binomial accuracy scores.
+
+```{r}
+spam_acc_tuned <- c(
+    "logistic model" = binomial_accuracy(
+        spam_results$real_value,
+        spam_results$tuned_glm
+    ),
+    "bagging tree" = binomial_accuracy(
+        spam_results$real_value,
+        spam_results$tuned_bag
+    ),
+    "random forest" = binomial_accuracy(
+        spam_results$real_value,
+        spam_results$tuned_rf
+    ),
+    "gradient boosting" = binomial_accuracy(
+        spam_results$real_value,
+        spam_results$tuned_gbm
+    )
+)
+
+barplot(
+    spam_acc_tuned,
+    main = "Binomial accuracy values for the tuned classification models",
+    las = 2,
+    cex.names = 0.7
+)
+```

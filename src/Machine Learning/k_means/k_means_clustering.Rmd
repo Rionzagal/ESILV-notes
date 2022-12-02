@@ -153,11 +153,12 @@ in turn generates super-clusters of the initial clusters. This method has two ca
 ## Aglomerative
 Known as the _bottom-up_ approach: Each observation starts as its own cluster, and pairs of clusters are formed while we move up the hierarchy.
 
+## Divisive
+Known as the _top-down_ approach: All the dataset starts as one cluster, and it is separated in more clusters as we move down the hierarchy.
 :::
 ::: {.column}
 
-## Divisive
-Known as the _top-down_ approach: 
+![](images/hierarchical_clustering.png)
 
 :::
 ::::::

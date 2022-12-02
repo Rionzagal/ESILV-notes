@@ -143,6 +143,55 @@ the centroid, and -1 being the least similar to the centroid. We look for the ma
 :::
 ::::::
 
+# An example...
+
+```{r}
+# Generate a function to plot the WSS elbow plot
+wss_plot <- function(data, nc = 15, seed = 1234){
+    wss <- (nrow(data) - 1) * sum(apply(data, 2, var))
+    for (i in 2:nc){
+        set.seed(seed)
+        wss[i] <- sum(kmeans(data, centers = i)$withinwss)
+    }
+    plot(1:nc, wss, type = "b", xlab = "K", ylab = "WSS")
+}
+
+# Download the data and separate the attributes from the labels.
+data(iris)
+attr_data <- dplyr::select(
+    iris,
+    Sepal.Length,
+    Sepal.Width,
+    Petal.Length,
+    Petal.Width
+)
+knitr::kable(head(attr_data))
+# Scale the dataset
+scaled_data <- scale(attr_data)
+
+km_model <- stats::kmeans(scaled_data, 3)
+print(km_model)
+
+factoextra::fviz_cluster(
+  km_model,
+  scaled_data,
+  geom = c("point"),
+  ellipse.type = "euclid"
+)
+
+wss_plot(attr_data)
+
+k_means_elbow <- stats::kmeans(scaled_data, 2)
+print(km_model)
+
+factoextra::fviz_cluster(
+    k_means_elbow,
+    data = scaled_data,
+    geom = c("point"),
+    ellipse.type = "euclid"
+)
+```
+
 # Hierarchical Clustering
 Hierarchical clustering is a clustering method focused on the grouping of data points based on the similarity between one another. This
 in turn generates super-clusters of the initial clusters. This method has two categories:
@@ -150,7 +199,7 @@ in turn generates super-clusters of the initial clusters. This method has two ca
 :::::: {.columns}
 ::: {.column}
 
-## Aglomerative
+## Agglomerative
 Known as the _bottom-up_ approach: Each observation starts as its own cluster, and pairs of clusters are formed while we move up the hierarchy.
 
 ## Divisive
@@ -162,3 +211,83 @@ Known as the _top-down_ approach: All the dataset starts as one cluster, and it 
 
 :::
 ::::::
+
+# Hierarchical Clustering - How does it work?
+The hierarchical clustering works following the following steps.
+
+:::::: {.columns}
+::: {.column}
+
+## In the Agglomerative approach:
+
+1. Each point in the dataset has its own cluster.
+2. Compute the similarity between each point of the data and generate clusters for the most similar pair.
+3. Compute the similarity between each pair of data and form clusters containing the most similar pair.
+4. Repeat until you have only one cluster containing all the data.
+
+:::
+::: {.column}
+
+## In the Divisive approach
+
+1. You have only one cluster containing all the data.
+2. Divide that cluster into a pair of different cluster separated by how dissimilar the data is.
+3. Divide each pair of clusters until each point of the dataset has its own cluster.
+
+:::
+::::::
+
+![](images/hc_types.jpeg)
+
+# Advantages and disadvantages
+
+:::::: {.columns}
+::: {.column}
+
+## Advantages
+
+- It is easy to understand and implement.
+- No need to pre-specify any particular number of clusters.
+- Can obtain any desired number of clusters by cutting the Dendrogram at the proper level.
+- They may correspond to meaningful classification.
+- Easy to decide the number of clusters by merely looking at the Dendrogram.
+
+:::
+::: {.column}
+
+- Does not work well on vast amounts of data.
+- When a decision is made to combine two clusters, it can not be undone.
+- Sensitivity to noise and outliers.
+- Faces difficulty when handling different sizes of clusters.
+- It is breaking large clusters.
+- In this technique, the order of the data has an impact on the final results.
+
+:::
+::::::
+
+# An example...
+
+```{r}
+# Load the data and retrieve its attributes.
+data(iris)
+attr_data <- dplyr::select(
+    iris,
+    Sepal.Length,
+    Sepal.Width,
+    Petal.Length,
+    Petal.Width
+)
+knitr::kable(head(attr_data))
+# Scale the data and obtain the absolute distance between each point.
+scaled_data <- scale(attr_data)
+distances <- dist(scaled_data)
+# Generate the clustering object using hierarchical clustering
+hc_model <- stats::hclust(distances, method = "complete")
+print(hc_model)
+# Visualize the Dendogram.
+plot(hc_model)
+stats::rect.hclust(hc_model, k = 3, border = 2:5)
+# Visualize the clustered data.
+hc_clusters <- stats::cutree(hc_model, k = 3)
+factoextra::fviz_cluster(list(data = scaled_data, clusters = hc_clusters))
+```

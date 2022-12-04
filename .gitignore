@@ -23,6 +23,7 @@
 # produced vignettes
 *.html
 *.pdf
+*.zip
 
 # knitr and R markdown default cache directories
 *_cache/

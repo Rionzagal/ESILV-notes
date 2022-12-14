@@ -1,0 +1,306 @@
+---
+title: "Practical work 7"
+author: "Mario GONZÁLEZ"
+date: "06/12/2022"
+output: 
+    html_document:
+        toc: yes
+---
+
+## PRINCIPAL COMPONENT ANALYSIS
+
+## Example 1 : Decathlon Data
+
+Several functions from different packages are available in the `R` software for computing PCA:
+
+-   `prcomp()` and `princomp()` [built-in R `stats` package],
+
+-   `PCA()` [`FactoMineR` package],
+
+-   `dudi.pca()` [`ade4` package],
+
+-   `epPCA()` [`ExPosition` package].
+
+No matter what function you decide to use, you can easily extract and visualize the results of PCA using `R` functions provided in the `factoextra` `R` package.
+
+**2.** Load the demo data sets `decathlon2` from the `factoextra` package using the `data` operator and show its first lines using `head`
+
+```{r}
+library(factoextra)
+data(decathlon2)
+head(decathlon2)
+```
+
+**3.** Use `str` function to describe your data. Notice that its describes athletes performance during two sporting events (Desctar and Olympic Games). It contains 27 individuals (athletes) described by 13 variables.
+
+```{r}
+str(decathlon2)
+```
+
+In PCA terminology, our data contains :
+
+-   Active individuals (in light blue, rows 1:23) : Individuals that are used during the principal component analysis.
+
+-   Supplementary individuals (in dark blue, rows 24:27) : The coordinates of these individuals will be predicted using the PCA information and parameters obtained with active individuals/variables
+
+-   Active variables (in pink, columns 1:10) : Variables that are used for the principal component analysis.
+
+-   Supplementary variables: As supplementary individuals, the coordinates of these variables will be predicted also. These can be:
+
+    -   Supplementary continuous variables (red): Columns 11 and 12 corresponding respectively to the rank and the points of athletes.
+
+    -   Supplementary qualitative variables (green): Column 13 corresponding to the two athlete-tic meetings (2004 Olympic Game or 2004 Decastar). This is a categorical (or factor) variable factor. It can be used to color individuals by groups.
+
+**4.** Extract only active individuals and variables:
+
+In principal component analysis, variables are often scaled (i.e. standardized). This is particularly recommended when variables are measured in different scales (e.g: kilograms, kilometers, centimeters, ...); otherwise, the PCA outputs obtained will be severely affected. The `R` base function `scale()` can be used to standardize the data. Nevertheless, in the PCA context we can do it as a pca option.
+
+```{r}
+# Active individuals and variables (non standardized)
+active_variables <- dplyr::select(
+    decathlon2, -c("Rank", "Points", "Competition")
+)
+supp_variables <- decathlon2[, c("Rank", "Points", "Competition")]
+supp_rows <- c("KARPOV", "WARNERS", "Nool", "Drews")
+active_data <- active_variables[!(row.names(active_variables) %in% supp_rows), ]
+supp_data <- supp_variables[supp_rows, ]
+```
+
+**5.** Use the function `PCA()` from the `FactoMineR` package to construct a PCA on a scaled version of the decathlon2 data.
+
+```{r}
+pca_data <- FactoMineR::PCA(active_data, scale.unit = TRUE)
+print(pca_data)
+```
+
+We'll use the `factoextra` `R` package to help in the interpretation of PCA. No matter what function you decide to use [`stats`::`prcomp()`, `FactoMiner`::`PCA()`, `ade4`::`dudi.pca()`, `ExPosition`::`epPCA()`], you can easily extract and visualize the results of PCA using `R` functions provided in the `factoextra` package. These functions include:
+
+-   `get_eigenvalue`: Extract the eigenvalues/variances of principal components
+
+-   `fviz_eig`: Visualize the eigenvalues
+
+-   `get_pca_ind`, `get_pca_var`: Extract the results for individuals and variables, respectively. \*`fviz_pca_ind`, `fviz_pca_var`: Visualize the results individuals and variables, respectively.
+
+-   `fviz_pca_biplot`: Make a biplot of individuals and variables. Next, we'll illustrate each of these functions.
+
+**7.** Examine the eigenvalues to determine the number of principal components to be considered using the function `get_eigenvalue()` from the `factoextra` package.
+
+```{r}
+factoextra::get_eigenvalue(pca_data)
+```
+
+Unfortunately, there is no well-accepted objective way to decide how many principal components are enough. This will depend on the specific field of application and the specific data set. Here we recall three possible options:
+
+-   Kaiser criteria : An eigenvalue \> 1 indicates that PCs account for more variance than accounted by one of the original variables in standardized data. This is commonly used as a cutoff point for which PCs are retained. This holds true only when the data are standardized.
+
+-   Limit the number of component to that number that accounts for a certain fraction of the total variance. For example, if you are satisfied with 70% of the total variance explained then use the number of components to achieve that.
+
+-   Look at a Scree Plot, which is the plot of eigenvalues ordered from largest to the smallest. The number of component is determined at the point, beyond which the remaining eigenvalues are all relatively small and of comparable size
+
+**8.** Show the scree plot using the function `fviz_eig()` and discuss how many principal components are enough.
+
+```{r}
+factoextra::fviz_eig(pca_data, addlabels = TRUE, ylim = c(0, 50))
+```
+
+If we were trying to capture at least 80% of the total variance explained, then we could keep the 4 first principal components which, altogether, get to capture 80.21% of it.
+
+The correlation between a variable and a principal component (PC) is used as the coordinates of the variable on the PC. The representation of variables differs from the plot of the observations: The observations are represented by their projections, but the variables are represented by their correlations.
+
+**9.** Plot the correlation circle using the `fviz_pca_var` function:
+
+```{r}
+var <- factoextra::get_pca_var(pca_data)
+var
+
+factoextra::fviz_pca_var(pca_data, col.var = "black")
+```
+
+The quality of representation of the variables on factor map is called cos2 (square cosine, squared coordinates).
+
+**10.** Print the quality of representation of the variables and plot them
+
+```{r}
+print(var$cos2)
+factoextra::fviz_cos2(pca_data, choice = "var", axes = 1)
+factoextra::fviz_cos2(pca_data, choice = "var", axes = 2)
+```
+
+**11.** Color variables by their `cos2` values using the argument `col.var`.
+
+```{r}
+factoextra::fviz_pca_var(pca_data, col.var = "cos2")
+```
+
+**12.** Apply the function `dimdesc()` from `FactoMineR`, to show a dimension description and identify the most significantly associated variables with first principal components.
+
+```{r}
+dim_desc <- FactoMineR::dimdesc(pca_data, axes = 1:4) #We keep the 4 first PA
+dim_desc
+```
+
+**13.** Extract the results for individuals using the function `get_pca_ind()`.
+
+```{r}
+result_individuals <- get_pca_ind(pca_data)
+result_individuals$coord
+result_individuals$cos2
+result_individuals$contrib
+```
+
+**14.** Produce the graph of individuals using `fviz_pca_ind()` and color individuals by their cos2 values:
+
+```{r}
+factoextra::fviz_pca_ind(pca_data, col.ind = "cos2")
+```
+
+**15.** Change the point size according the cos2 of the corresponding individuals
+
+```{r}
+factoextra::fviz_pca_ind(pca_data, pointsize = "cos2")
+```
+
+**16.** Specify supplementary individuals and variables, the function `PCA()`:
+
+```{r}
+pca_supp <- FactoMineR::PCA(
+    decathlon2,
+    quanti.sup = 11:12,
+    quali.sup = 13,
+    ind.sup = 24:27,
+    scale = TRUE
+)
+```
+
+**17.** Predict results (coordinates, correlation and cos2) for the supplementary **quantitative** variable.
+
+```{r}
+pca_supp$quanti.sup
+```
+
+**18.** Predict results for the supplementary individuals (ind.sup) and visualize all individuals (active and supplementary ones).
+
+```{r}
+pca_supp$ind$coord
+pca_supp$ind.sup$coord
+
+factoextra::fviz_pca_ind(pca_supp, geom = "text")
+```
+
+**19.** Color individuals by the supplementary qualitative variable (column 13 corresponding to the type of competitions), using the argument habillage to specify the index of the supplementary qualitative variable.
+
+```{r}
+FactoMineR::plot.PCA(
+    pca_supp,
+    axes = c(1, 2),
+    choix = "ind",
+    habillage = 13
+)
+```
+
+**20.** Interpret and analyze the obtained results.
+
+It can be seen on the last graph that this PCA analysis doesn't seem to show a difference between individuals from the two competitions in the space (Dim1, Dim2), due to the homogeneous distribution of individuals from both competitions in this space.
+
+## Example 2 : IRIS Data
+
+**1.** Download the csv iris dataset and import it into `R`. Show the correlation matrix of the quantitative variables.
+
+```{r}
+library(datasets)
+data(iris)
+head(iris)
+cor(iris[1:4])
+```
+
+**2.** Compare the means and the quartiles of the 3 different flower classes for the 4 different features
+
+In order to compare the means and the quartiles, we are going to represent the following boxplots:
+
+```{r}
+boxplot(Sepal.Length ~ Species, iris)
+boxplot(Sepal.Width ~ Species, iris)
+boxplot(Petal.Length ~ Species, iris)
+boxplot(Petal.Width ~ Species, iris)
+```
+
+**3.** To explore how the 3 different flower classes are distributed along the 4 different features, visualize them via histograms using the `ggplot` packages through the `geom_histogram` plot.
+
+```{r}
+# Sepal length distribution:
+map <- ggplot2::aes(x = Sepal.Length, color = Species)
+a <- ggplot2::ggplot(iris, map)
+a + ggplot2::geom_histogram(fill = "white")
+```
+
+```{r}
+# Sepal width distribution:
+map <- ggplot2::aes(x = Sepal.Width, color = Species)
+a <- ggplot2::ggplot(iris, map)
+a + ggplot2::geom_histogram(fill = "white")
+```
+
+```{r}
+# Petal length distribution:
+map <- ggplot2::aes(x = Petal.Length, color = Species)
+a <- ggplot2::ggplot(iris, map)
+a + ggplot2::geom_histogram(fill = "white")
+```
+
+```{r}
+# Petal width distribution:
+map <- ggplot2::aes(x = Petal.Width, color = Species)
+a <- ggplot2::ggplot(iris, map)
+a + ggplot2::geom_histogram(fill = "white")
+```
+
+**4.** Apply a PCA on the Iris dataset using the `princomp` function and interpret the results.
+
+```{r}
+iris_scale <- as.data.frame(scale(iris[1:4]))
+iris_pca <- princomp(iris_scale)
+
+factoextra::get_eigenvalue(iris_pca)
+```
+
+As expected, we obtain 4 principal components. Analyzing the column "cumulative.variance", we can observe that the first 2 principal components capture 95.8% of the variance, which is a really good value.
+
+**5.** Using the `factoextra` package plot the following:
+
+-   The scree plot : "a line plot of the eigenvalues of factors or principal components in an analysis":
+
+    ```{r}
+    factoextra::fviz_eig(iris_pca)
+    ```
+
+-   The graph of individuals:
+
+    ```{r}
+    factoextra::fviz_pca_ind(iris_pca,
+                             axes = c(1, 2),
+                             geom = "point",
+                             habillage = iris$Species,
+                             addEllipses = TRUE)
+    ```
+
+-   The graph of variables.
+
+    ```{r}
+    factoextra::fviz_pca_var(iris_pca, col.var = "cos2")
+    ```
+
+-   The biplot graph
+
+    ```{r}
+    factoextra::fviz_pca_biplot(iris_pca,
+                                axes = c(1, 2),
+                                geom = "point",
+                                habillage = iris$Species,
+                                addEllipses = TRUE)
+    ```
+
+-   The contributions of the variables to the first 2 principal components:
+
+    ```{r}
+    factoextra::fviz_contrib(iris_pca, choice = "var", axes = c(1, 2))
+    ```

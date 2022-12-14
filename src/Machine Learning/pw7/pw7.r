@@ -33,7 +33,7 @@ factoextra::fviz_pca_var(pca_data, col.var = "black")
 
 corrplot::corrplot(var$cos2, is.corr = FALSE)
 
-FactoMineR::dimdesc(pca_data)
+corrplot::corrplot(var$cos2, is.corr = FALSE)
 
 pca_ind <- factoextra::get_pca_ind(pca_data)
 

@@ -1,0 +1,600 @@
+---
+title: "PW 8 Clustering"
+author: "Lale Asalioglu"
+date: "2022-12-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+K-means
+
+```{r}
+ligue1 = read.csv("ligue1_17_18.csv", row.names=1, sep=";")
+head(ligue1)
+```
+
+
+
+QUESTION 2: Print the first two rows of the dataset and the total number of features in this dataset.
+
+
+```{r}
+library(knitr)
+```
+
+
+```{r}
+knitr::kable(head(ligue1[1:2,] ), "simple")
+```
+
+QUESTION 3: We will first consider a smaller dataset to easily understand the results of k-means. Create a new dataset in which you consider only Points and Yellow.cards from the original dataset. Name it pointsCards
+
+
+```{r}
+pointscards <- ligue1[, c("Points", "yellow.cards")]
+
+knitr::kable(head(pointscards,"Points","yellow.cards"))
+```
+
+QUESTION 4: Apply k-means on pointsCards. Chose k=2 clusters and put the number of iterations to 20. Store your results into km. (Remark: kmeans() uses a random initialization of the clusters, so the results may vary from one call to another. Use set.seed() to have reproducible outputs).
+
+```{r}
+set.seed(123)
+km=kmeans(pointscards,2)
+```
+
+
+QUESTION 5: Print and describe what is inside km.
+
+```{r}
+print(km) #cluster: indicating the cluster to which each point is allocated 
+```
+
+
+QUESTION 6: What are the coordinates of the centers of the clusters (called also prototypes or centroids) ?
+
+
+```{r}
+print(km$centers) # the mean point position, that is, the sum of all point coordinates divided by the number of points.
+```
+
+
+QUESTION 7: Plot the data (Yellow.cards vs Points). Color the points corresponding to their cluster.
+
+```{r}
+plot(pointscards[, 1], pointscards[, 2],col=km$cluster,pch=20,cex=3)
+```
+
+
+QUESTION 8: Add to the previous plot the clusters centroids and add the names of the observations.
+
+```{r}
+plot(pointscards[, 1], pointscards[, 2],col=km$cluster,pch=20,cex=3)
+points(km$centers,col=1:2,pch=3,cex=3,lwd=3, title(main = "Yellow Cards vs Points"))
+```
+
+
+
+QUESTION 9:Re-run k-means on pointsCards using 3 and 4 clusters and store the results into km3 and km4 respectively. Visualize the results like in question 7 and 8.
+
+```{r}
+km3=kmeans(pointscards,3)
+print(km3)
+```
+
+
+```{r}
+plot(pointscards[, 1], pointscards[, 2],col=km3$cluster,pch=20,cex=3)
+points(km3$centers,col=1:2,pch=3,cex=3,lwd=3)
+```
+
+
+```{r}
+km4=kmeans(pointscards,4)
+print(km4)
+```
+
+
+```{r}
+plot(pointscards[, 1], pointscards[, 2],col=km4$cluster,pch=20,cex=3)
+points(km4$centers,col=1:2,pch=3,cex=3,lwd=3)
+```
+
+
+QUESTION 10: Visualize the “within groups sum of squares” of the k-means clustering results (use the code in the link above).
+
+```{r}
+mydata=pointscards
+wss=(nrow(mydata)-1)*sum(apply(mydata,2,var))
+for (i in 2:15) wss[i]=sum(kmeans(mydata,centers=i)$withinss)
+plot(1:15, wss, type="b", xlab="Number of Clusters",ylab="Within groups sum of squares")
+```
+
+
+
+
+QUESTION 11: Modify the code of the previous question in order to visualize the ‘between_SS / total_SS’. Interpret the results.
+
+```{r}
+mydata=pointscards
+wss = (nrow(mydata)-1)*sum(apply(mydata,2,var))
+for (i in 2:15) wss[i]=sum(kmeans(mydata,centers=i)$betweenss)
+plot(1:15, wss, type="b", xlab="Number of Clusters",ylab="Within groups sum of squares")
+```
+
+
+
+
+QUESTION 12: Now we consider all features. Scale the dataset and transform it to a data frame again. Store the scaled dataset into ligue1_scaled.
+
+```{r}
+ligue1_scaled=scale(ligue1[,-(1)])
+```
+
+
+QUESTION 13: Apply kmeans() on ligue1 and on ligue1_scaled using 3 clusters and 20 iterations. Store the results into km.ligue1 and km.ligue1.scaled respectively (do not forget to set a seed).
+
+
+```{r}
+set.seed(123)
+km.ligue1=kmeans(ligue1[,-(1)],centers=3, iter.max = 20)
+km.ligue1.scaled=kmeans(ligue1_scaled,centers=3, iter.max = 20)
+```
+
+
+
+QUESTION 14: How many observations there are in each cluster of km.ligue1 and km.ligue1.scaled ? (you can use table()). Do you obtain the same results when you perform kmeans() on the scaled and unscaled data?
+
+```{r}
+table(km.ligue1$cluster)
+```
+
+```{r}
+table(km.ligue1.scaled$cluster)
+```
+
+
+QUESTION 15:Now we try to combine clustering with PCA to plot our high dimensionnal clustering. Apply PCA on ligue1 dataset and store you results in pcaligue1. Do we need to apply PCA on the scaled dataset? Justify your answer.
+```{r}
+library(factoextra)
+```
+```{r}
+pcaligue1=FactoMineR::PCA(ligue1)
+```
+
+pcaligue1=PCA(ligue1)
+```{r}
+pcaligue1=FactoMineR::PCA(ligue1)
+```
+
+
+
+## Warning: ggrepel: 10 unlabeled data points (too many overlaps). Consider
+## increasing max.overlaps
+
+
+PCA(ligue1_scaled)
+
+QUESTION 16:Plot the observations and the variables on the first two principal components (biplot). Interpret the results.
+
+#Biplot of individuals and variables
+fviz_pca_biplot(pcaligue1)
+
+
+#We obtain a  plane of the rows and columns.
+QUESTION 17: Visualize the teams on the first two principal components and color them with respect to their cluster.
+
+fviz_cluster(km.ligue1, data = ligue1,
+             palette = c("red", "blue", "green"), 
+             ggtheme = theme_minimal(),
+             main = "Clustering Plot")
+
+
+QUESTION 18: Recall that the figure of question 17 is a visualization with PC1 and PC2 of the clustering done with all the variables, not on PC1 and PC2. Now apply the kmeans() clustering taking only the first two PCs instead the variables of original dataset. Visualize the results and compare with the question 17.
+
+fviz_cluster(km, data = pointscards, 
+             palette = c("red", "blue"), 
+             ggtheme = theme_minimal(),
+             main = "Clustering Plot"
+)
+
+
+fviz_cluster(km3, data = pointscards, 
+             palette = c("red", "blue", "green"), 
+             ggtheme = theme_minimal(),
+             main = "Clustering Plot"
+) 
+
+
+Hierarchical Clustering
+
+QUESTION 1: We will perform hierarchical clustering on customer data, which involves segmenting customers into different groups. Load the file “customer.csv” and name the data : “customer_data”.
+
+customer_data <- read.csv("C:/Users/amina/Desktop/customer.csv")
+QUESTION 2:Show its summary ans structure.
+
+summary(customer_data)
+##        ID          Visit.Time   Average.Expense      Sex        
+##  Min.   : 1.00   Min.   : 1.0   Min.   : 4.50   Min.   :0.0000  
+##  1st Qu.:15.75   1st Qu.: 5.0   1st Qu.:10.82   1st Qu.:0.0000  
+##  Median :30.50   Median : 7.5   Median :16.00   Median :1.0000  
+##  Mean   :30.50   Mean   : 8.4   Mean   :17.06   Mean   :0.6833  
+##  3rd Qu.:45.25   3rd Qu.:12.0   3rd Qu.:24.90   3rd Qu.:1.0000  
+##  Max.   :60.00   Max.   :18.0   Max.   :33.70   Max.   :1.0000  
+##       Age       
+##  Min.   : 8.00  
+##  1st Qu.:15.00  
+##  Median :20.50  
+##  Mean   :21.43  
+##  3rd Qu.:27.00  
+##  Max.   :47.00
+head(customer_data)
+##   ID Visit.Time Average.Expense Sex Age
+## 1  1          3             5.7   0  10
+## 2  2          5            14.5   0  27
+## 3  3         16            33.5   0  32
+## 4  4          5            15.9   0  30
+## 5  5         16            24.9   0  23
+## 6  6          3            12.0   0  15
+str(customer_data)
+## 'data.frame':    60 obs. of  5 variables:
+##  $ ID             : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ Visit.Time     : int  3 5 16 5 16 3 12 14 6 3 ...
+##  $ Average.Expense: num  5.7 14.5 33.5 15.9 24.9 12 28.5 18.8 23.8 5.3 ...
+##  $ Sex            : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ Age            : int  10 27 32 30 23 15 33 27 16 11 ...
+QUESTION 3:Chek that there is no missing data and then normalize the customer data into the same scale.
+
+is.na(customer_data) #check missing data
+##          ID Visit.Time Average.Expense   Sex   Age
+##  [1,] FALSE      FALSE           FALSE FALSE FALSE
+##  [2,] FALSE      FALSE           FALSE FALSE FALSE
+##  [3,] FALSE      FALSE           FALSE FALSE FALSE
+##  [4,] FALSE      FALSE           FALSE FALSE FALSE
+##  [5,] FALSE      FALSE           FALSE FALSE FALSE
+##  [6,] FALSE      FALSE           FALSE FALSE FALSE
+##  [7,] FALSE      FALSE           FALSE FALSE FALSE
+##  [8,] FALSE      FALSE           FALSE FALSE FALSE
+##  [9,] FALSE      FALSE           FALSE FALSE FALSE
+## [10,] FALSE      FALSE           FALSE FALSE FALSE
+## [11,] FALSE      FALSE           FALSE FALSE FALSE
+## [12,] FALSE      FALSE           FALSE FALSE FALSE
+## [13,] FALSE      FALSE           FALSE FALSE FALSE
+## [14,] FALSE      FALSE           FALSE FALSE FALSE
+## [15,] FALSE      FALSE           FALSE FALSE FALSE
+## [16,] FALSE      FALSE           FALSE FALSE FALSE
+## [17,] FALSE      FALSE           FALSE FALSE FALSE
+## [18,] FALSE      FALSE           FALSE FALSE FALSE
+## [19,] FALSE      FALSE           FALSE FALSE FALSE
+## [20,] FALSE      FALSE           FALSE FALSE FALSE
+## [21,] FALSE      FALSE           FALSE FALSE FALSE
+## [22,] FALSE      FALSE           FALSE FALSE FALSE
+## [23,] FALSE      FALSE           FALSE FALSE FALSE
+## [24,] FALSE      FALSE           FALSE FALSE FALSE
+## [25,] FALSE      FALSE           FALSE FALSE FALSE
+## [26,] FALSE      FALSE           FALSE FALSE FALSE
+## [27,] FALSE      FALSE           FALSE FALSE FALSE
+## [28,] FALSE      FALSE           FALSE FALSE FALSE
+## [29,] FALSE      FALSE           FALSE FALSE FALSE
+## [30,] FALSE      FALSE           FALSE FALSE FALSE
+## [31,] FALSE      FALSE           FALSE FALSE FALSE
+## [32,] FALSE      FALSE           FALSE FALSE FALSE
+## [33,] FALSE      FALSE           FALSE FALSE FALSE
+## [34,] FALSE      FALSE           FALSE FALSE FALSE
+## [35,] FALSE      FALSE           FALSE FALSE FALSE
+## [36,] FALSE      FALSE           FALSE FALSE FALSE
+## [37,] FALSE      FALSE           FALSE FALSE FALSE
+## [38,] FALSE      FALSE           FALSE FALSE FALSE
+## [39,] FALSE      FALSE           FALSE FALSE FALSE
+## [40,] FALSE      FALSE           FALSE FALSE FALSE
+## [41,] FALSE      FALSE           FALSE FALSE FALSE
+## [42,] FALSE      FALSE           FALSE FALSE FALSE
+## [43,] FALSE      FALSE           FALSE FALSE FALSE
+## [44,] FALSE      FALSE           FALSE FALSE FALSE
+## [45,] FALSE      FALSE           FALSE FALSE FALSE
+## [46,] FALSE      FALSE           FALSE FALSE FALSE
+## [47,] FALSE      FALSE           FALSE FALSE FALSE
+## [48,] FALSE      FALSE           FALSE FALSE FALSE
+## [49,] FALSE      FALSE           FALSE FALSE FALSE
+## [50,] FALSE      FALSE           FALSE FALSE FALSE
+## [51,] FALSE      FALSE           FALSE FALSE FALSE
+## [52,] FALSE      FALSE           FALSE FALSE FALSE
+## [53,] FALSE      FALSE           FALSE FALSE FALSE
+## [54,] FALSE      FALSE           FALSE FALSE FALSE
+## [55,] FALSE      FALSE           FALSE FALSE FALSE
+## [56,] FALSE      FALSE           FALSE FALSE FALSE
+## [57,] FALSE      FALSE           FALSE FALSE FALSE
+## [58,] FALSE      FALSE           FALSE FALSE FALSE
+## [59,] FALSE      FALSE           FALSE FALSE FALSE
+## [60,] FALSE      FALSE           FALSE FALSE FALSE
+customer <- scale(customer_data[,-1]) 
+QUESTION 4:Compute the Hopkins statistic and evaluate the cluster structure.
+
+library(factoextra)
+
+
+# Compute Hopkins statistic for customer dataset
+res <- get_clust_tendency(customer_data, n = nrow(customer_data)-1, graph = FALSE)
+res$hopkins_stat
+## [1] 0.6014905
+QUESTION 5:Estimate the optimal number of cluster for the customer data using NbClust function.
+
+library(NbClust)
+## Warning: le package 'NbClust' a été compilé avec la version R 4.1.3
+customer_scaled <- scale(customer_data)
+
+res.nbclust <- NbClust(customer_scaled, distance = "euclidean",
+                       min.nc = 2, max.nc = 9, 
+                       method = "complete", index ="all")
+## Warning in log(det(P)/det(W)): Production de NaN
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+## Warning in log(det(P)/det(W)): Production de NaN
+
+
+## *** : The Hubert index is a graphical method of determining the number of clusters.
+##                 In the plot of Hubert index, we seek a significant knee that corresponds to a 
+##                 significant increase of the value of the measure i.e the significant peak in Hubert
+##                 index second differences plot. 
+## 
+
+
+## *** : The D index is a graphical method of determining the number of clusters. 
+##                 In the plot of D index, we seek a significant knee (the significant peak in Dindex
+##                 second differences plot) that corresponds to a significant increase of the value of
+##                 the measure. 
+##  
+## ******************************************************************* 
+## * Among all indices:                                                
+## * 1 proposed 2 as the best number of clusters 
+## * 10 proposed 3 as the best number of clusters 
+## * 1 proposed 4 as the best number of clusters 
+## * 5 proposed 5 as the best number of clusters 
+## * 1 proposed 6 as the best number of clusters 
+## * 3 proposed 7 as the best number of clusters 
+## * 1 proposed 8 as the best number of clusters 
+## * 1 proposed 9 as the best number of clusters 
+## 
+##                    ***** Conclusion *****                            
+##  
+## * According to the majority rule, the best number of clusters is  3 
+##  
+##  
+## *******************************************************************
+factoextra::fviz_nbclust(res.nbclust) + theme_minimal() + ggtitle("NbClust's optimal number of clusters")
+## Warning in if (class(best_nc) == "numeric") print(best_nc) else if
+## (class(best_nc) == : la condition a une longueur > 1 et seul le premier élément
+## est utilisé
+## Warning in if (class(best_nc) == "matrix") .viz_NbClust(x, print.summary, : la
+## condition a une longueur > 1 et seul le premier élément est utilisé
+## Warning in if (class(best_nc) == "numeric") print(best_nc) else if
+## (class(best_nc) == : la condition a une longueur > 1 et seul le premier élément
+## est utilisé
+## Warning in if (class(best_nc) == "matrix") {: la condition a une longueur > 1 et
+## seul le premier élément est utilisé
+## Among all indices: 
+## ===================
+## * 2 proposed  0 as the best number of clusters
+## * 1 proposed  1 as the best number of clusters
+## * 1 proposed  2 as the best number of clusters
+## * 10 proposed  3 as the best number of clusters
+## * 1 proposed  4 as the best number of clusters
+## * 5 proposed  5 as the best number of clusters
+## * 1 proposed  6 as the best number of clusters
+## * 3 proposed  7 as the best number of clusters
+## * 1 proposed  8 as the best number of clusters
+## * 1 proposed  9 as the best number of clusters
+## 
+## Conclusion
+## =========================
+## * According to the majority rule, the best number of clusters is  3 .
+
+
+QUESTION 6: Use agglomerative hierarchical clustering to cluster the customer data.
+
+hc <- hclust(dist(customer, method = "euclidean"), method = "ward.D2")
+hc
+## 
+## Call:
+## hclust(d = dist(customer, method = "euclidean"), method = "ward.D2")
+## 
+## Cluster method   : ward.D2 
+## Distance         : euclidean 
+## Number of objects: 60
+QUESTION 7: Plot the dendogram by specifying hang to display labels at the bottom of the dendrogram, and cex to shrink the label to 70 percent of the normal size.
+
+plot(hc,hang = -0.01, cex = 0.7)
+
+
+QUESTION 8: Cut trees into clusters and show cluster labels for the data.
+
+show_cluster <- cutree(hc, k=4)
+show_cluster                    #cluster labels for the data
+##  [1] 1 1 2 1 2 1 2 2 1 1 1 2 2 1 1 1 2 1 2 3 4 3 4 3 3 4 4 3 4 4 4 3 3 3 4 4 3 4
+## [39] 4 4 4 4 4 4 3 3 4 4 4 3 4 3 3 4 4 4 3 4 4 3
+QUESTION 9:Show the count of data within each cluster using the function table
+
+table(show_cluster)              #count of data within each cluster
+## show_cluster
+##  1  2  3  4 
+## 11  8 16 25
+QUESTION 10:Visualize the clustered data with red rectangle border
+
+plot(hc)
+rect.hclust(hc,k=4, border="red")
+
+
+QUESTION 11:Hilight the cluster 2 with red rectangle border
+
+plot(hc)
+rect.hclust(hc,k = 4, which = 2, border = "red")
+
+
+QUESTION 12: Using the function fviz_cluster() [in factoextra], visualize the result in a scatter plot: Observations are represented by points in the plot, using principal components. A frame is drawn around each cluster.
+
+Next, we’ll use the package dendextend which contains many functions for comparing two dendrograms.
+
+library(dendextend)
+## Warning: le package 'dendextend' a été compilé avec la version R 4.1.3
+## 
+## ---------------------
+## Welcome to dendextend version 1.16.0
+## Type citation('dendextend') for how to cite the package.
+## 
+## Type browseVignettes(package = 'dendextend') for the package vignette.
+## The github page is: https://github.com/talgalili/dendextend/
+## 
+## Suggestions and bug-reports can be submitted at: https://github.com/talgalili/dendextend/issues
+## You may ask questions at stackoverflow, use the r and dendextend tags: 
+##   https://stackoverflow.com/questions/tagged/dendextend
+## 
+##  To suppress this message use:  suppressPackageStartupMessages(library(dendextend))
+## ---------------------
+## 
+## Attachement du package : 'dendextend'
+## L'objet suivant est masqué depuis 'package:stats':
+## 
+##     cutree
+dendogram <- customer %>% dist %>% hclust %>% as.dendrogram
+dendogram %>%plot(horiz=TRUE, main="Horizontal Dendrogram")
+
+
+#Color the branch according to the cluster it belongs to:
+dendogram %>% color_branches(k=4) %>% plot(horiz=TRUE, main ="Horizontal Dendrogram")
+#Add a red rectangle around the clusters:
+dendogram %>% rect.dendrogram(k=4,horiz=TRUE)
+#Add a line to show the tree cutting location:
+abline(v = heights_per_k.dendrogram(dendogram)["4"] + .1, lwd = 2,lty = 2, col = "blue")
+
+
+fviz_cluster(list(data = customer, cluster = show_cluster))
+
+
+QUESTION 13: Compute two hierarchical clusterings using ‘complete’ and ‘centroid’ linkage. Compute two dendograms and use the function tanglegram() to plot the two dendrograms, side by side, with their labels connected by lines. This method can be used for visually comparing two methods of Hierarchical clustering.
+
+Note that “unique” nodes, with a combination of labels/items not present in the other tree, are highlighted with dashed lines.
+
+#Compute two hierarchical clusterings
+hc1 <- hclust((dist(customer, method="euclidean")), method="average")
+hc2 <- hclust((dist(customer, method="euclidean")), method="ward.D2")
+
+#Compute two dendograms
+dendogram1 <- as.dendrogram((hc1))
+dendogram2 <- as.dendrogram((hc2))
+
+#Create a list of dendrograms
+dend_list <- dendlist(dendogram1, dendogram2)
+
+# plots two dendrograms side by side
+
+tanglegram(dendogram1, dendogram2)
+
+
+# “unique” nodes are highlighted with dashed lines.
+QUESTION 14: The quality of the alignment of the two trees can be measured using the function entanglement() (a 1 score is the best possible value).
+
+A simple way to compare many dendogram is a correlation matrix between a list of dendrogram
+
+#The quality measurement
+tanglegram(dendogram1, dendogram2,
+  highlight_distinct_edges = FALSE, 
+  common_subtrees_color_lines = FALSE, 
+  common_subtrees_color_branches = TRUE, 
+  main = paste("entanglement =", round(entanglement(dend_list), 2))
+  )
+
+
+QUESTION 15: Compare simultaneously multiple dendrograms using the chaining operator %>% (available in dendextend) which is used to run multiple function at the same time.
+
+Alternatively, we can use the agnes function from the cluster packages. This functions behave very similarly; however, it can also get the agglomerative coefficient, which measures the amount of clustering structure found (values closer to 1 suggest strong clustering structure).
+
+library(corrplot)
+## Warning: le package 'corrplot' a été compilé avec la version R 4.1.3
+## corrplot 0.92 loaded
+# Create multiple dendrograms by chaining
+dendogram1 <- customer %>% dist %>% hclust("com") %>% as.dendrogram
+dendogram2 <- customer %>% dist %>% hclust("single") %>% as.dendrogram
+dendogram3 <- customer %>% dist %>% hclust("ave") %>% as.dendrogram
+dendogram4 <- customer %>% dist %>% hclust("centroid") %>% as.dendrogram
+QUESTION 16: Find which hierarchical clustering methods can identify stronger clustering structures among the following linkages : “average”, “single”,“complete” and “ward”.
+
+# Compute correlation matrix
+dend_list <- dendlist("Complete" = dendogram1, "Single" = dendogram2,
+                      "Average" = dendogram3, "ward" = dendogram4)
+cors <- cor.dendlist(dend_list)
+# Print correlation matrix
+round(cors, 2)
+##          Complete Single Average ward
+## Complete     1.00   0.40    0.96 0.89
+## Single       0.40   1.00    0.54 0.62
+## Average      0.96   0.54    1.00 0.95
+## ward         0.89   0.62    0.95 1.00
+# Visualize the correlation matrix using corrplot package
+corrplot(cors, "pie", "lower")
+
